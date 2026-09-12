@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Runner" ADD COLUMN "bankName" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "Runner" ADD COLUMN "accountName" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "Runner" ADD COLUMN "accountNumber" TEXT NOT NULL DEFAULT '';

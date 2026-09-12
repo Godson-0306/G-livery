@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  admin
+  cafeteria
+  runner
+  student
+}
+
+enum SubscriptionStatus {
+  active
+  inactive
+  expired
+}
+
+enum RunnerTier {
+  basic
+  pro
+}
+
+enum OrderStatus {
+  placed
+  accepted
+  preparing
+  ready
+  picked_up
+  delivered
+  cancelled
+}
+
+enum SubscriptionRecordStatus {
+  pending
+  paid
+  failed
+  refunded
+}
+
+model User {
+  id                 String   @id @default(cuid())
+  name               String
+  email              String   @unique
+  phone              String?
+  passwordHash       String
+  role               Role
+  mustChangePassword Boolean  @default(false)
+  isDisabled         Boolean  @default(false)
+  createdAt          DateTime @default(now())
+
+  ownedCafeterias Cafeteria[]
+  runner          Runner?
+  orders          Order[]        @relation("StudentOrders")
+  notifications   Notification[]
+}
+
+model Cafeteria {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  logoUrl     String?
+  location    String?
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  qrCodeUrl   String?
+  isActive    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  menuItems MenuItem[]
+  orders    Order[]
+
+  @@index([isActive])
+}
+
+model MenuItem {
+  id          String    @id @default(cuid())
+  cafeteriaId String
+  cafeteria   Cafeteria @relation(fields: [cafeteriaId], references: [id])
+  name        String
+  description String?
+  price       Decimal   @db.Decimal(10, 2)
+  photoUrl    String?
+  isAvailable Boolean   @default(true)
+  category    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  orderItems OrderItem[]
+
+  @@index([cafeteriaId])
+}
+
+model Runner {
+  id                    String             @id @default(cuid())
+  userId                String             @unique
+  user                  User               @relation(fields: [userId], references: [id])
+  personalSlug          String             @unique
+  subscriptionStatus    SubscriptionStatus @default(inactive)
+  subscriptionExpiresAt DateTime?
+  tier                  RunnerTier         @default(basic)
+  isAcceptingOrders     Boolean            @default(true)
+  bankName              String             @default("")
+  accountName           String             @default("")
+  accountNumber         String             @default("")
+  createdAt             DateTime           @default(now())
+
+  orders        Order[]
+  subscriptions Subscription[]
+
+  @@index([personalSlug])
+  @@index([subscriptionStatus])
+}
+
+model Order {
+  id               String      @id @default(cuid())
+  studentId        String
+  student          User        @relation("StudentOrders", fields: [studentId], references: [id])
+  cafeteriaId      String
+  cafeteria        Cafeteria   @relation(fields: [cafeteriaId], references: [id])
+  runnerId         String?
+  runner           Runner?     @relation(fields: [runnerId], references: [id])
+  status           OrderStatus @default(placed)
+  totalAmount      Decimal     @db.Decimal(10, 2)
+  deliveryLocation String
+  notes            String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  items OrderItem[]
+
+  @@index([status])
+  @@index([runnerId])
+  @@index([studentId])
+  @@index([cafeteriaId])
+}
+
+model OrderItem {
+  id           String   @id @default(cuid())
+  orderId      String
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId   String
+  menuItem     MenuItem @relation(fields: [menuItemId], references: [id])
+  quantity     Int
+  priceAtOrder Decimal  @db.Decimal(10, 2)
+}
+
+model Subscription {
+  id               String                    @id @default(cuid())
+  runnerId         String
+  runner           Runner                    @relation(fields: [runnerId], references: [id])
+  startDate        DateTime
+  endDate          DateTime
+  amountPaid       Decimal                   @db.Decimal(10, 2)
+  status           SubscriptionRecordStatus  @default(pending)
+  flutterwaveTxRef String?                   @unique
+  createdAt        DateTime                  @default(now())
+
+  @@index([runnerId])
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String
+  link      String?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, createdAt])
+}
