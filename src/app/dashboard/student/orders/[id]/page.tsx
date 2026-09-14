@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { OrderTimeline } from "@/components/ui/order-timeline";
 import { PageHeader } from "@/components/ui/page-header";
 import { PayAgentCard } from "@/components/pay-agent-card";
+import { RateAgentForm } from "@/components/agents/rate-agent-form";
 import { fetchRunnerPayout } from "@/lib/payout-db";
 import { notFound } from "next/navigation";
 
@@ -25,6 +26,7 @@ export default async function StudentOrderDetailPage({
       cafeteria: true,
       runner: { include: { user: true } },
       items: { include: { menuItem: true } },
+      rating: true,
     },
   });
   if (!order || order.studentId !== session.user.id) notFound();
@@ -51,14 +53,23 @@ export default async function StudentOrderDetailPage({
         />
       ) : (
         <Card>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay the student</p>
-          <h2 className="mt-1 text-lg font-semibold text-forest">Waiting for a student agent</h2>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay the Agent</p>
+          <h2 className="mt-1 text-lg font-semibold text-forest">Waiting for an Agent</h2>
           <p className="mt-1 text-sm text-muted">
-            Food total {formatNgn(order.totalAmount)}. After a student accepts, transfer that amount to
+            Food total {formatNgn(order.totalAmount)}. After an Agent accepts, transfer that amount to
             them — they pay the cafeteria when they pick up.
           </p>
         </Card>
       )}
+      {order.status === "delivered" && order.runner ? (
+        <Card>
+          <RateAgentForm
+            orderId={order.id}
+            agentName={order.runner.user.name}
+            existingStars={order.rating?.stars ?? null}
+          />
+        </Card>
+      ) : null}
       <Card padded={false}>
         <ul className="divide-y divide-line">
           {order.items.map((item) => (

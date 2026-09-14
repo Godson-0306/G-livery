@@ -4,7 +4,7 @@ export const ORDER_STATUS_LABEL: Record<OrderStatus, string> = {
   placed: "Placed",
   accepted: "Accepted",
   preparing: "Preparing",
-  ready: "Ready for pickup",
+  ready: "Packed",
   picked_up: "On the way",
   delivered: "Delivered",
   cancelled: "Cancelled",

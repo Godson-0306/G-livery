@@ -1,8 +1,10 @@
+import { AgentRatingLine } from "@/components/agents/agent-rating";
 import { CartBar } from "@/components/cart/cart-bar";
 import { CafeteriaLogo } from "@/components/cafeteria-logo";
 import { SiteHeader } from "@/components/site-header";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { getAgentStats } from "@/lib/agents";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -19,10 +21,13 @@ export default async function RunnerStorefrontPage({
   });
   if (!runner || runner.user.isDisabled) notFound();
 
-  const cafeterias = await prisma.cafeteria.findMany({
-    where: { isActive: true },
-    orderBy: { name: "asc" },
-  });
+  const [cafeterias, stats] = await Promise.all([
+    prisma.cafeteria.findMany({
+      where: { isActive: true },
+      orderBy: { name: "asc" },
+    }),
+    getAgentStats(runner.id),
+  ]);
 
   return (
     <div className="min-h-full">
@@ -33,6 +38,16 @@ export default async function RunnerStorefrontPage({
             Ordering with an agent
           </p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">{runner.user.name}</h1>
+          <AgentRatingLine
+            averageStars={stats.averageStars}
+            ratingCount={stats.ratingCount}
+            className="mt-2 text-emerald-100"
+          />
+          {stats.deliveredCount > 0 ? (
+            <p className="mt-1 text-xs text-emerald-100/80">
+              {stats.deliveredCount} {stats.deliveredCount === 1 ? "delivery" : "deliveries"}
+            </p>
+          ) : null}
           <p className="mt-3 text-sm text-emerald-100">
             Pick a cafeteria, add food, and this order is tagged to {runner.user.name}. Transfer the food
             total to {runner.user.name} after they accept — they pay the cafeteria when they pick up.

@@ -37,12 +37,12 @@ export default async function PublicCafeteriaPage({
         ) : null}
         {runner ? (
           <p className="mt-3 rounded-2xl bg-forest-soft px-4 py-3 text-sm text-forest">
-            This bag is tagged to your student agent. Transfer the food total to them after they
+            This bag is tagged to your Agent. Transfer the food total to them after they
             accept — they pay the cafeteria.
           </p>
         ) : (
           <p className="mt-3 text-sm text-muted">
-            Transfer the food total to the student who delivers. They pay the cafeteria when they pick up.
+            Transfer the food total to the Agent. They pay the cafeteria when they pick up.
           </p>
         )}
         <div className="mt-6">

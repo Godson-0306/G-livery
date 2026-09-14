@@ -33,6 +33,7 @@ const NAV: Record<Role, Array<{ href: string; label: string }>> = {
   student: [
     { href: "/dashboard/student", label: "Home" },
     { href: "/cafeterias", label: "Browse" },
+    { href: "/agents", label: "Agents" },
     { href: "/dashboard/student/orders", label: "Orders" },
     { href: "/dashboard/profile", label: "Profile" },
   ],
@@ -54,8 +55,8 @@ export function DashboardShell({
   const firstName = name.split(" ")[0] || name;
 
   return (
-    <div className="min-h-full bg-background">
-      <header className="border-b border-forest-dark bg-forest text-white">
+    <div className="min-h-dvh bg-background">
+      <header className="sticky top-0 z-40 border-b border-forest-dark bg-forest text-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
           <div className="min-w-0">
             <Brand />

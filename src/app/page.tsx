@@ -58,7 +58,7 @@ export default async function HomePage() {
             {[
               { step: "1", title: "Pick a cafeteria", body: "Open a live e-menu and see what’s actually available." },
               { step: "2", title: "Add your food", body: "Tap items into a bag that already feels like checkout." },
-              { step: "3", title: "Drop your hostel", body: "Place the order, pay the student who delivers, and track every step." },
+              { step: "3", title: "Complete Your Order", body: "Place the order, pay the Agent, and track every step." },
             ].map((item) => (
               <li key={item.step}>
                 <Card>
@@ -77,7 +77,7 @@ export default async function HomePage() {
           {[
             {
               title: "Students",
-              body: "Browse, order, and transfer the food total to the student who delivers.",
+              body: "Browse, order, and transfer the food total to the delivery agent.",
               href: "/signup/student",
               cta: "Sign up to order",
             },
@@ -89,7 +89,7 @@ export default async function HomePage() {
             },
             {
               title: "Cafeterias",
-              body: "Run your menu, mark sold out, and print a QR e-menu. Accounts are admin-created.",
+              body: "Run your menu, mark sold out, and print an E-menu QR code. Accounts are admin-created.",
               href: "/login",
               cta: "Cafeteria login",
             },

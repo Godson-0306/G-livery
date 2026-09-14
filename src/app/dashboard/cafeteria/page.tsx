@@ -64,12 +64,12 @@ export default async function CafeteriaHomePage() {
       </div>
       <section>
         <h2 className="font-semibold text-forest">Incoming — needs the kitchen</h2>
-        <p className="text-sm text-muted">Start preparing and mark ready. Agents cannot pick up until you do.</p>
+        <p className="text-sm text-muted">Start preparing and mark packed. Agents cannot pick up until you do.</p>
         {incoming.length === 0 ? (
           <div className="mt-3">
             <EmptyState
               title="No tickets on the pass"
-              body="When an agent accepts, the order lands here. Start preparing, then mark ready."
+              body="When an agent accepts, the order lands here. Start preparing, then mark packed."
               actionHref="/dashboard/cafeteria/orders"
               actionLabel="See all orders"
             />

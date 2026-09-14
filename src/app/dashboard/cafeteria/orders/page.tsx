@@ -25,7 +25,7 @@ export default async function CafeteriaOrdersPage() {
       <PageHeader
         eyebrow="Kitchen"
         title="Kitchen orders"
-        subtitle="Open a ticket to start preparing or mark it ready for pickup."
+        subtitle="Open a ticket to start preparing or mark it packed."
       />
       {orders.length === 0 ? (
         <EmptyState

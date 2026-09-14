@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { authConfig } from "@/auth.config";
 import { prisma } from "@/lib/prisma";
-import { upsertGoogleUser } from "@/lib/google-user";
+import { isGoogleAuthConfigured, upsertGoogleUser } from "@/lib/google-user";
 
 const credentialsSchema = z.object({
   email: z.string().email(),
@@ -15,10 +15,14 @@ const credentialsSchema = z.object({
 export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
   ...authConfig,
   providers: [
-    Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
-    }),
+    ...(isGoogleAuthConfigured()
+      ? [
+          Google({
+            clientId: process.env.AUTH_GOOGLE_ID,
+            clientSecret: process.env.AUTH_GOOGLE_SECRET,
+          }),
+        ]
+      : []),
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },

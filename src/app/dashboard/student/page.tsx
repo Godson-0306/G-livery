@@ -45,7 +45,7 @@ export default async function StudentHomePage() {
         title={`Hey ${firstName}`}
         subtitle={
           active
-            ? "You have an order in motion. Transfer the food total to the student who delivers."
+            ? "You have an order in motion. Transfer the food total to the Agent."
             : "Browse a cafeteria, tap items, drop your hostel. We’ll keep the rest live."
         }
         action={

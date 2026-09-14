@@ -4,7 +4,7 @@ import { signIn, signOut, auth, unstable_update } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { parsePayoutDetails } from "@/lib/payout";
 import { uniqueSlug } from "@/lib/utils";
-import { setOAuthRoleCookie, type OAuthRole } from "@/lib/google-user";
+import { setOAuthRoleCookie, isGoogleAuthConfigured, type OAuthRole } from "@/lib/google-user";
 import { DASHBOARD_HOME } from "@/auth.config";
 import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
@@ -45,6 +45,9 @@ export async function loginAction(_: ActionState, formData: FormData): Promise<A
 }
 
 export async function googleSignInAction(role: OAuthRole, redirectTo?: string) {
+  if (!isGoogleAuthConfigured()) {
+    redirect("/login?error=Configuration");
+  }
   await setOAuthRoleCookie(role);
   const dest =
     redirectTo?.trim() ||

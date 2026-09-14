@@ -51,7 +51,7 @@ export function StatusActions({
     }
     if (status === "preparing") {
       actions.push({
-        label: "Mark ready",
+        label: "Mark packed",
         onClick: () => run(() => updateOrderStatusAction(orderId, "ready")),
       });
     }

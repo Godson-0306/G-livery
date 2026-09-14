@@ -9,7 +9,7 @@ import { isRunnerLive, syncRunnerSubscription } from "@/lib/subscription";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { ActionState } from "@/actions/auth";
-import type { OrderStatus, Role } from "@prisma/client";
+import { Prisma, type OrderStatus, type Role } from "@prisma/client";
 
 type CartPayload = {
   cafeteriaId: string;
@@ -196,7 +196,7 @@ export async function updateOrderStatusAction(orderId: string, nextStatus: Order
   const studentMessage: Partial<Record<OrderStatus, string>> = {
     accepted: "A delivery agent accepted your order.",
     preparing: `${order.cafeteria.name} is preparing your food.`,
-    ready: "Your order is ready for pickup.",
+    ready: "Your order is packed.",
     picked_up: "Your delivery agent is on the way.",
     delivered: "Your order has been delivered.",
     cancelled: "Your order was cancelled.",
@@ -250,6 +250,52 @@ export async function adminSetOrderStatusAction(orderId: string, status: OrderSt
   await requireRole("admin");
   await prisma.order.update({ where: { id: orderId }, data: { status } });
   revalidatePath("/dashboard/admin/orders");
+}
+
+export async function rateAgentAction(
+  _: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const session = await requireRole("student");
+  const orderId = String(formData.get("orderId") ?? "");
+  const stars = Number(formData.get("stars"));
+  if (!orderId) return { error: "Order not found." };
+  if (!Number.isInteger(stars) || stars < 1 || stars > 5) {
+    return { error: "Pick 1 to 5 stars." };
+  }
+
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    include: { runner: true, rating: true },
+  });
+  if (!order || order.studentId !== session.user.id) return { error: "Order not found." };
+  if (order.status !== "delivered") return { error: "Rate this Agent after delivery." };
+  if (!order.runnerId || !order.runner) return { error: "No Agent on this order." };
+  if (order.rating) return { error: "You already rated this order." };
+
+  try {
+    await prisma.runnerRating.create({
+      data: {
+        orderId: order.id,
+        studentId: session.user.id,
+        runnerId: order.runnerId,
+        stars,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      return { error: "You already rated this order." };
+    }
+    console.error("rateAgentAction failed", error);
+    return { error: "Could not save that rating. Try again." };
+  }
+
+  revalidatePath(`/dashboard/student/orders/${order.id}`);
+  revalidatePath("/dashboard/student");
+  revalidatePath("/agents");
+  revalidatePath("/checkout");
+  revalidatePath(`/r/${order.runner.personalSlug}`);
+  return { success: "Thanks for rating this Agent." };
 }
 
 export async function getSessionUser() {

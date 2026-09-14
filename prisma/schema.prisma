@@ -58,6 +58,7 @@ model User {
   runner          Runner?
   orders          Order[]        @relation("StudentOrders")
   notifications   Notification[]
+  runnerRatings   RunnerRating[]
 }
 
 model Cafeteria {
@@ -113,6 +114,7 @@ model Runner {
 
   orders        Order[]
   subscriptions Subscription[]
+  ratings       RunnerRating[]
 
   @@index([personalSlug])
   @@index([subscriptionStatus])
@@ -133,12 +135,28 @@ model Order {
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
 
-  items OrderItem[]
+  items   OrderItem[]
+  rating  RunnerRating?
 
   @@index([status])
   @@index([runnerId])
   @@index([studentId])
   @@index([cafeteriaId])
+}
+
+model RunnerRating {
+  id        String   @id @default(cuid())
+  orderId   String   @unique
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  studentId String
+  student   User     @relation(fields: [studentId], references: [id])
+  runnerId  String
+  runner    Runner   @relation(fields: [runnerId], references: [id], onDelete: Cascade)
+  stars     Int
+  createdAt DateTime @default(now())
+
+  @@index([runnerId])
+  @@index([studentId])
 }
 
 model OrderItem {

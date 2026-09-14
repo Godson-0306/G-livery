@@ -7,6 +7,10 @@ export const OAUTH_ROLE_COOKIE = "oauth-role";
 
 export type OAuthRole = "student" | "runner";
 
+export function isGoogleAuthConfigured() {
+  return Boolean(process.env.AUTH_GOOGLE_ID?.trim() && process.env.AUTH_GOOGLE_SECRET?.trim());
+}
+
 export async function setOAuthRoleCookie(role: OAuthRole) {
   const store = await cookies();
   store.set(OAUTH_ROLE_COOKIE, role, {

@@ -2,6 +2,7 @@ import { loginAction } from "@/actions/auth";
 import { AuthForm } from "@/components/auth/auth-form";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
+import { isGoogleAuthConfigured } from "@/lib/google-user";
 import Link from "next/link";
 
 export default async function LoginPage({
@@ -10,6 +11,7 @@ export default async function LoginPage({
   searchParams: Promise<{ callbackUrl?: string; error?: string }>;
 }) {
   const { callbackUrl, error } = await searchParams;
+  const google = isGoogleAuthConfigured();
   return (
     <AuthShell
       footer={
@@ -20,13 +22,22 @@ export default async function LoginPage({
               Create an account
             </Link>
           </p>
-          <p>
-            New delivery agent? Use{" "}
-            <Link href="/signup/runner" className="font-semibold text-forest">
-              agent signup
-            </Link>{" "}
-            so we set up your desk — then Google works on login too.
-          </p>
+          {google ? (
+            <p>
+              New delivery agent? Use{" "}
+              <Link href="/signup/runner" className="font-semibold text-forest">
+                agent signup
+              </Link>{" "}
+              so we set up your desk — then Google works on login too.
+            </p>
+          ) : (
+            <p>
+              New delivery agent?{" "}
+              <Link href="/signup/runner" className="font-semibold text-forest">
+                Agent signup
+              </Link>
+            </p>
+          )}
         </>
       }
     >
@@ -42,8 +53,14 @@ export default async function LoginPage({
         submitLabel="Log in"
         callbackUrl={callbackUrl}
         passwordMinLength={1}
-        passwordHint="Use the password you created at signup, or continue with Google."
-        oauth={<GoogleSignInButton role="student" redirectTo={callbackUrl || "/dashboard"} />}
+        passwordHint={
+          google
+            ? "Use the password you created at signup, or continue with Google."
+            : "Use the password you created at signup."
+        }
+        oauth={
+          google ? <GoogleSignInButton role="student" redirectTo={callbackUrl || "/dashboard"} /> : undefined
+        }
       />
     </AuthShell>
   );

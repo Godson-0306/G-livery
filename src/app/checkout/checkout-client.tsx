@@ -3,17 +3,19 @@
 import { logoutToCheckoutLoginAction } from "@/actions/auth";
 import { placeOrderAction } from "@/actions/orders";
 import { useCart } from "@/components/cart/cart-provider";
+import { AgentPicker } from "@/components/checkout/agent-picker";
 import { buttonClass } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Field, fieldClass } from "@/components/ui/field";
 import { PageHeader } from "@/components/ui/page-header";
+import type { AgentBoardRow } from "@/lib/agents";
 import { formatNgn } from "@/lib/money";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useActionState, useMemo } from "react";
 
-export function CheckoutClient() {
+export function CheckoutClient({ agents }: { agents: AgentBoardRow[] }) {
   const { cart, ready, setQuantity, subtotal } = useCart();
   const { data: session, status } = useSession();
   const payload = useMemo(() => {
@@ -43,7 +45,7 @@ export function CheckoutClient() {
       <main className="page-wrap max-w-lg py-12">
         <EmptyState
           title="Your bag is empty"
-          body="Pick a cafeteria and add a few items. You’ll transfer the food total to the student who delivers."
+          body="Pick a cafeteria and add a few items. You’ll transfer the food total to the Agent."
           actionHref="/cafeterias"
           actionLabel="Browse cafeterias"
         />
@@ -72,12 +74,9 @@ export function CheckoutClient() {
       <PageHeader
         eyebrow="Checkout"
         title={cart.cafeteriaName}
-        subtitle={
-          cart.runnerSlug
-            ? `Tagged to agent /r/${cart.runnerSlug}. Transfer the food total to that student after they accept.`
-            : "A student agent can pick this up. Transfer the food total to them after they accept."
-        }
+        subtitle={checkoutSubtitle(cart.runnerSlug, agents)}
       />
+      <AgentPicker agents={agents} />
       <Card className="mt-6" padded={false}>
         <ul className="divide-y divide-line">
           {cart.items.map((item) => (
@@ -109,7 +108,7 @@ export function CheckoutClient() {
         <div className="border-t border-line px-4 py-4">
           <p className="text-right text-lg font-semibold">Food total {formatNgn(subtotal)}</p>
           <p className="mt-1 text-right text-xs text-muted">
-            After a student agent accepts, transfer the food total to them. They pay the cafeteria.
+            After an Agent accepts, transfer the food total to them. They pay the cafeteria.
           </p>
         </div>
       </Card>
@@ -140,4 +139,15 @@ export function CheckoutClient() {
       )}
     </main>
   );
+}
+
+function checkoutSubtitle(runnerSlug: string | null | undefined, agents: AgentBoardRow[]) {
+  if (!runnerSlug) {
+    return "Any available Agent can pick this up. Transfer the food total after they accept.";
+  }
+  const named = agents.find((agent) => agent.slug === runnerSlug);
+  if (named) {
+    return `Tagged to ${named.name}. Transfer the food total to this Agent after they accept.`;
+  }
+  return `Tagged to agent /r/${runnerSlug}. Transfer the food total to this Agent after they accept.`;
 }
