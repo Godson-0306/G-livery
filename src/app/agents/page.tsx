@@ -49,9 +49,6 @@ export default async function AgentsLeaderboardPage() {
                         ratingCount={agent.ratingCount}
                         className="mt-1 text-muted"
                       />
-                      <p className="mt-1 text-xs text-muted">
-                        {agent.deliveredCount} {agent.deliveredCount === 1 ? "delivery" : "deliveries"}
-                      </p>
                       <p className="mt-2 text-sm font-semibold text-forest">Order with {agent.name} →</p>
                     </div>
                   </Card>
