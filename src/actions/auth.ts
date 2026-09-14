@@ -1,15 +1,17 @@
 "use server";
 
-import { signIn, signOut, auth } from "@/auth";
+import { signIn, signOut, auth, unstable_update } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { parsePayoutDetails } from "@/lib/payout";
 import { uniqueSlug } from "@/lib/utils";
+import { setOAuthRoleCookie, type OAuthRole } from "@/lib/google-user";
+import { DASHBOARD_HOME } from "@/auth.config";
 import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-export type ActionState = { error?: string; success?: string } | undefined;
+export type ActionState = { error?: string; success?: string; name?: string } | undefined;
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name is too short"),
@@ -19,9 +21,14 @@ const signupSchema = z.object({
 });
 
 export async function loginAction(_: ActionState, formData: FormData): Promise<ActionState> {
-  const email = String(formData.get("email") ?? "");
+  const email = String(formData.get("email") ?? "").toLowerCase().trim();
   const password = String(formData.get("password") ?? "");
   const callbackUrl = String(formData.get("callbackUrl") ?? "/dashboard");
+
+  const existing = email ? await prisma.user.findUnique({ where: { email } }) : null;
+  if (existing && !existing.passwordHash) {
+    return { error: "This account uses Google. Continue with Google." };
+  }
 
   try {
     await signIn("credentials", {
@@ -35,6 +42,14 @@ export async function loginAction(_: ActionState, formData: FormData): Promise<A
     }
     throw error;
   }
+}
+
+export async function googleSignInAction(role: OAuthRole, redirectTo?: string) {
+  await setOAuthRoleCookie(role);
+  const dest =
+    redirectTo?.trim() ||
+    (role === "runner" ? DASHBOARD_HOME.runner : "/dashboard");
+  await signIn("google", { redirectTo: dest });
 }
 
 export async function signupStudentAction(
@@ -145,6 +160,9 @@ export async function changePasswordAction(
 
   const user = await prisma.user.findUnique({ where: { id: session.user.id } });
   if (!user) return { error: "Account not found." };
+  if (!user.passwordHash) {
+    return { error: "This account uses Google sign-in. There is no password to change." };
+  }
 
   const ok = await bcrypt.compare(current, user.passwordHash);
   if (!ok) return { error: "Current password is incorrect." };
@@ -157,7 +175,30 @@ export async function changePasswordAction(
     },
   });
 
+  await unstable_update({ user: { mustChangePassword: false } });
+
   return { success: "Password updated. You can continue to your dashboard." };
+}
+
+export async function updateProfileAction(
+  _: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const session = await auth();
+  if (!session?.user) redirect("/login");
+
+  const name = String(formData.get("name") ?? "").trim();
+  const phoneRaw = String(formData.get("phone") ?? "").trim();
+  if (name.length < 2) return { error: "Name is too short." };
+  if (phoneRaw && phoneRaw.length < 7) return { error: "Enter a valid phone number." };
+
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { name, phone: phoneRaw || null },
+  });
+
+  await unstable_update({ user: { name } });
+  return { success: "Profile saved.", name };
 }
 
 export async function logoutAction() {

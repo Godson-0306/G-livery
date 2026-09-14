@@ -1,14 +1,15 @@
 import { loginAction } from "@/actions/auth";
 import { AuthForm } from "@/components/auth/auth-form";
 import { AuthShell } from "@/components/auth/auth-shell";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import Link from "next/link";
 
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ callbackUrl?: string }>;
+  searchParams: Promise<{ callbackUrl?: string; error?: string }>;
 }) {
-  const { callbackUrl } = await searchParams;
+  const { callbackUrl, error } = await searchParams;
   return (
     <AuthShell
       footer={
@@ -20,14 +21,20 @@ export default async function LoginPage({
             </Link>
           </p>
           <p>
-            Want to deliver?{" "}
+            New delivery agent? Use{" "}
             <Link href="/signup/runner" className="font-semibold text-forest">
-              Sign up as a delivery agent
-            </Link>
+              agent signup
+            </Link>{" "}
+            so we set up your desk — then Google works on login too.
           </p>
         </>
       }
     >
+      {error ? (
+        <p className="mb-4 text-sm text-rose-700">
+          Google sign-in was cancelled or could not finish. Try again, or use email and password.
+        </p>
+      ) : null}
       <AuthForm
         action={loginAction}
         title="Welcome back"
@@ -35,7 +42,8 @@ export default async function LoginPage({
         submitLabel="Log in"
         callbackUrl={callbackUrl}
         passwordMinLength={1}
-        passwordHint="Use the password you created at signup."
+        passwordHint="Use the password you created at signup, or continue with Google."
+        oauth={<GoogleSignInButton role="student" redirectTo={callbackUrl || "/dashboard"} />}
       />
     </AuthShell>
   );

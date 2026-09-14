@@ -34,9 +34,8 @@ export default async function RunnerStorefrontPage({
           </p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">{runner.user.name}</h1>
           <p className="mt-3 text-sm text-emerald-100">
-            Pick a kitchen, add food, and this order is tagged to {runner.user.name}. Pay the cafeteria
-            for food. You can pay {runner.user.name} by transfer using the account shown on your order
-            after they accept.
+            Pick a cafeteria, add food, and this order is tagged to {runner.user.name}. Transfer the food
+            total to {runner.user.name} after they accept — they pay the cafeteria when they pick up.
           </p>
         </section>
         <h2 className="mt-8 text-lg font-semibold text-forest">Pick a cafeteria</h2>

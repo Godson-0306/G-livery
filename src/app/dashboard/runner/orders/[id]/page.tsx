@@ -45,6 +45,14 @@ export default async function RunnerOrderDetailPage({
         action={<StatusChip status={order.status} />}
       />
       <OrderTimeline status={order.status} />
+      <Card>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay the cafeteria</p>
+        <h2 className="mt-1 text-lg font-semibold text-forest">{order.cafeteria.name}</h2>
+        <p className="mt-1 text-sm text-muted">
+          The student transfers {formatNgn(order.totalAmount)} to you. Pay the cafeteria that amount
+          when you collect the food.
+        </p>
+      </Card>
       <Card padded={false}>
         <ul className="divide-y divide-line">
           {order.items.map((item) => (

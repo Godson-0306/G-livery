@@ -45,12 +45,12 @@ export default async function StudentHomePage() {
         title={`Hey ${firstName}`}
         subtitle={
           active
-            ? "You have an order in motion. Pay the kitchen, and your agent once they’re assigned."
-            : "Browse a cafeteria, tap items, drop your hall. We’ll keep the rest live."
+            ? "You have an order in motion. Transfer the food total to the student who delivers."
+            : "Browse a cafeteria, tap items, drop your hostel. We’ll keep the rest live."
         }
         action={
           <Link href="/cafeterias" className={buttonClass("primary")}>
-            Browse kitchens
+            Browse cafeterias
           </Link>
         }
       />
@@ -70,37 +70,25 @@ export default async function StudentHomePage() {
           <div className="mt-4">
             <OrderTimeline status={active.status} />
           </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl bg-forest-soft/80 px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted">Pay kitchen</p>
-              <p className="mt-1 text-sm">
-                Food total {formatNgn(active.totalAmount)} to {active.cafeteria.name} (cash or transfer).
-              </p>
-            </div>
-            {active.runner ? (
-              <div className="rounded-2xl bg-forest-soft/80 px-4 py-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-muted">Pay agent</p>
-                <p className="mt-1 text-sm">
-                  {active.runner.user.name} — open the order for copyable transfer details.
-                </p>
-              </div>
-            ) : (
-              <div className="rounded-2xl bg-forest-soft/80 px-4 py-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-muted">Pay agent</p>
-                <p className="mt-1 text-sm">Waiting for an agent. Their account shows after they accept.</p>
-              </div>
-            )}
-          </div>
-          {active.runner && activePayout ? (
-            <div className="mt-4">
+          <div className="mt-4">
+            {active.runner && activePayout ? (
               <PayAgentCard
                 agentName={active.runner.user.name}
                 bankName={activePayout.bankName}
                 accountName={activePayout.accountName}
                 accountNumber={activePayout.accountNumber}
+                amount={Number(active.totalAmount)}
               />
-            </div>
-          ) : null}
+            ) : (
+              <div className="rounded-2xl bg-forest-soft/80 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted">Pay the student</p>
+                <p className="mt-1 text-sm">
+                  Food total {formatNgn(active.totalAmount)}. After a student agent accepts, transfer that
+                  amount to them — they settle the cafeteria.
+                </p>
+              </div>
+            )}
+          </div>
           <Link
             href={`/dashboard/student/orders/${active.id}`}
             className={buttonClass("primary", "mt-4 h-11 w-full sm:w-auto")}
@@ -111,7 +99,7 @@ export default async function StudentHomePage() {
       ) : (
         <EmptyState
           title="Nothing in motion"
-          body="When you place an order you’ll see the kitchen total, agent transfer details, and a live timeline here."
+          body="When you place an order you’ll see who to pay — a student agent — plus a live timeline here."
           actionHref="/cafeterias"
           actionLabel="Order food"
         />

@@ -3,6 +3,7 @@
 import { hasPayoutDetails } from "@/lib/payout";
 import { buttonClass } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { formatNgn } from "@/lib/money";
 import { useState } from "react";
 
 export function PayAgentCard({
@@ -10,11 +11,13 @@ export function PayAgentCard({
   bankName,
   accountName,
   accountNumber,
+  amount,
 }: {
   agentName: string;
   bankName: string;
   accountName: string;
   accountNumber: string;
+  amount?: number;
 }) {
   const complete = hasPayoutDetails({ bankName, accountName, accountNumber });
   const [copied, setCopied] = useState<string | null>(null);
@@ -32,10 +35,11 @@ export function PayAgentCard({
   if (!complete) {
     return (
       <Card>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay your agent</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay this student</p>
         <h2 className="mt-1 text-lg font-semibold text-forest">{agentName}</h2>
         <p className="mt-1 text-sm text-muted">
-          This agent has not added transfer details yet. Pay them off-platform once they share an account.
+          {amount != null ? `${formatNgn(amount)} food total. ` : ""}
+          This student has not added transfer details yet. Pay them once they share an account.
         </p>
       </Card>
     );
@@ -49,10 +53,13 @@ export function PayAgentCard({
 
   return (
     <Card>
-      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay your agent</p>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay this student</p>
       <h2 className="mt-1 text-lg font-semibold text-forest">{agentName}</h2>
+      {amount != null ? (
+        <p className="mt-1 text-lg font-semibold text-forest">{formatNgn(amount)}</p>
+      ) : null}
       <p className="mt-1 text-sm text-muted">
-        Transfer off-platform (food still goes to the cafeteria). Copy the details below.
+        Transfer the food total to this student. They pay the cafeteria when they pick up.
       </p>
       <ul className="mt-4 space-y-2">
         {rows.map((row) => (

@@ -22,8 +22,14 @@ export const authConfig = {
         token.mustChangePassword = user.mustChangePassword ?? false;
       }
       if (trigger === "update" && session) {
-        token.mustChangePassword = session.mustChangePassword ?? token.mustChangePassword;
-        token.name = session.name ?? token.name;
+        const next = session as {
+          name?: string | null;
+          mustChangePassword?: boolean;
+          user?: { name?: string | null; mustChangePassword?: boolean };
+        };
+        token.mustChangePassword =
+          next.user?.mustChangePassword ?? next.mustChangePassword ?? token.mustChangePassword;
+        token.name = next.user?.name ?? next.name ?? token.name;
       }
       return token;
     },

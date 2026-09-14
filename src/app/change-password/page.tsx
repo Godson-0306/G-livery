@@ -3,7 +3,7 @@
 import { changePasswordAction } from "@/actions/auth";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { buttonClass } from "@/components/ui/button";
-import { Field, fieldClass } from "@/components/ui/field";
+import { PasswordField } from "@/components/ui/password-field";
 import { DASHBOARD_HOME } from "@/auth.config";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -21,12 +21,14 @@ export default function ChangePasswordPage() {
         <p className="text-sm text-muted">
           Admin-created cafeteria accounts should change the temporary password before continuing.
         </p>
-        <Field label="Current password">
-          <input name="currentPassword" type="password" required className={fieldClass()} />
-        </Field>
-        <Field label="New password" hint="At least 8 characters.">
-          <input name="newPassword" type="password" required minLength={8} className={fieldClass()} />
-        </Field>
+        <PasswordField name="currentPassword" label="Current password" />
+        <PasswordField
+          name="newPassword"
+          label="New password"
+          hint="At least 8 characters."
+          minLength={8}
+          autoComplete="new-password"
+        />
         {state?.error ? <p className="text-sm text-rose-700">{state.error}</p> : null}
         {state?.success ? <p className="text-sm text-forest">{state.success}</p> : null}
         <button type="submit" disabled={pending} className={buttonClass("primary", "w-full h-11")}>

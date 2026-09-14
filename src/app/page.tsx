@@ -19,11 +19,14 @@ export default async function HomePage() {
         <section className="overflow-hidden rounded-[2rem] bg-forest px-6 py-12 text-white shadow-sm sm:px-12 sm:py-16">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-amber">G-Livery</p>
           <h1 className="mt-3 max-w-xl text-4xl font-semibold leading-[1.1] tracking-tight sm:text-6xl">
-            {TAGLINE}
+            {TAGLINE}.
           </h1>
-          <p className="mt-4 max-w-lg text-base text-emerald-100 sm:text-lg">
-            Order campus food in three taps. Kitchens cook. Agents deliver. You pay food to the
-            cafeteria — and your agent by transfer — off-platform.
+          <p className="mt-4 max-w-lg text-base font-bold text-white sm:text-lg">
+            Your favourite campus meals, delivered straight to you.
+          </p>
+          <p className="mt-3 max-w-lg text-base text-emerald-100 sm:text-lg">
+            Order from your favourite cafeterias, stay where you are, and let a G-Livery Agent handle
+            the delivery.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/cafeterias" className={buttonClass("amber", "h-11 px-5")}>
@@ -35,7 +38,7 @@ export default async function HomePage() {
           </div>
           <dl className="mt-10 grid max-w-xl grid-cols-3 gap-4 text-sm">
             <div>
-              <dt className="text-emerald-200">Kitchens live</dt>
+              <dt className="text-emerald-200">Cafeteria</dt>
               <dd className="text-2xl font-semibold sm:text-3xl">{cafeterias}</dd>
             </div>
             <div>
@@ -53,9 +56,9 @@ export default async function HomePage() {
           <h2 className="text-xl font-semibold text-forest">Order in 3 taps</h2>
           <ol className="mt-4 grid gap-3 sm:grid-cols-3">
             {[
-              { step: "1", title: "Pick a kitchen", body: "Open a live e-menu and see what’s actually available." },
+              { step: "1", title: "Pick a cafeteria", body: "Open a live e-menu and see what’s actually available." },
               { step: "2", title: "Add your food", body: "Tap items into a bag that already feels like checkout." },
-              { step: "3", title: "Drop your hall", body: "Place the order, pay the kitchen, and track every step." },
+              { step: "3", title: "Drop your hostel", body: "Place the order, pay the student who delivers, and track every step." },
             ].map((item) => (
               <li key={item.step}>
                 <Card>
@@ -74,7 +77,7 @@ export default async function HomePage() {
           {[
             {
               title: "Students",
-              body: "Browse, order, and see when to pay the kitchen vs your agent.",
+              body: "Browse, order, and transfer the food total to the student who delivers.",
               href: "/signup/student",
               cta: "Sign up to order",
             },
@@ -88,7 +91,7 @@ export default async function HomePage() {
               title: "Cafeterias",
               body: "Run your menu, mark sold out, and print a QR e-menu. Accounts are admin-created.",
               href: "/login",
-              cta: "Kitchen login",
+              cta: "Cafeteria login",
             },
           ].map((card) => (
             <article key={card.title}>

@@ -18,7 +18,9 @@ export function CartBar() {
             <p className="mt-1 text-sm font-semibold">
               {itemCount} item{itemCount === 1 ? "" : "s"} · {cart.cafeteriaName}
             </p>
-            <p className="text-xs text-emerald-100">Food total {formatNgn(subtotal)} · pay kitchen off-platform</p>
+            <p className="text-xs text-emerald-100">
+              Food total {formatNgn(subtotal)} · pay the student who delivers
+            </p>
           </div>
           <p className="text-lg font-semibold">{formatNgn(subtotal)}</p>
         </div>

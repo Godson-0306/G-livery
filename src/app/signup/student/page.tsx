@@ -1,6 +1,7 @@
 import { signupStudentAction } from "@/actions/auth";
 import { AuthForm } from "@/components/auth/auth-form";
 import { AuthShell } from "@/components/auth/auth-shell";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { Field, fieldClass } from "@/components/ui/field";
 import Link from "next/link";
 
@@ -19,9 +20,10 @@ export default function StudentSignupPage() {
       <AuthForm
         action={signupStudentAction}
         title="Join as a student"
-        subtitle="Browse live menus, drop your hall, and track the order. Food is paid to the kitchen off-platform."
+        subtitle="Browse live menus, drop your hostel, and track the order. You pay the student who delivers — they settle the cafeteria."
         submitLabel="Create student account"
         passwordHint="At least 8 characters. You’ll use this to track orders."
+        oauth={<GoogleSignInButton role="student" redirectTo="/dashboard/student" />}
         extraFields={
           <>
             <Field label="Full name">

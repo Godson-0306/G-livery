@@ -1,6 +1,7 @@
 import { signupRunnerAction } from "@/actions/auth";
 import { AuthForm } from "@/components/auth/auth-form";
 import { AuthShell } from "@/components/auth/auth-shell";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { Field, fieldClass } from "@/components/ui/field";
 import Link from "next/link";
 
@@ -22,9 +23,10 @@ export default function RunnerSignupPage() {
       <AuthForm
         action={signupRunnerAction}
         title="Become a delivery agent"
-        subtitle="Get a personal order link. Students pay you by transfer using the account you add here — G-Livery never charges food or delivery in the app."
+        subtitle="Get a personal order link. Students transfer the food total to you — you pay the cafeteria when you pick up."
         submitLabel="Create agent account"
         passwordHint="At least 8 characters."
+        oauth={<GoogleSignInButton role="runner" redirectTo="/dashboard/runner" />}
         extraFields={
           <>
             <Field label="Full name">
@@ -42,7 +44,8 @@ export default function RunnerSignupPage() {
                 Payout account
               </p>
               <p className="mt-1 text-xs text-muted">
-                Required now. Students copy these details from their order after you accept.
+                Required for email signup. If you continue with Google, add these on your desk after
+                you sign in.
               </p>
             </div>
             <Field label="Bank name">

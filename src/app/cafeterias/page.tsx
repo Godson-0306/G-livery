@@ -37,7 +37,7 @@ export default async function CafeteriasPage({
         <PageHeader
           eyebrow="Campus kitchens"
           title="What’s cooking"
-          subtitle="Tap a cafeteria for the live menu. Pay food to the kitchen off-platform when you order."
+          subtitle="Tap a cafeteria for the live menu. You’ll pay the student who delivers — they settle the cafeteria."
         />
         <form className="mt-6">
           <input

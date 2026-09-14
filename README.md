@@ -35,9 +35,18 @@ Seeded kitchen: `/cafeteria/campus-grill` · seeded runner link: `/r/amaka-runs`
 
 See `.env.example`. Production:
 
-- **Vercel** for the app (`AUTH_SECRET`, `NEXT_PUBLIC_APP_URL`)
+- **Vercel** for the app (`AUTH_SECRET`, `NEXT_PUBLIC_APP_URL`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`)
 - **Neon** `DATABASE_URL` (pooled) and `DIRECT_URL` (migrations)
 - **Cloudinary** for menu photos
 - **Flutterwave** keys + webhook `https://<domain>/api/webhooks/flutterwave`
 
 Cafeteria accounts are **admin-created only**. Runner subscriptions can be paid via Flutterwave or flipped manually in the admin panel.
+
+### Google sign-in
+
+Create an OAuth 2.0 Web client in Google Cloud Console and set `AUTH_GOOGLE_ID` plus `AUTH_GOOGLE_SECRET`. Authorized redirect URIs:
+
+- `http://localhost:3000/api/auth/callback/google`
+- `https://g-livery-run.vercel.app/api/auth/callback/google`
+
+Google is available on login, student signup, and agent signup. New Google users take the role of the page they started from. Existing emails (including cafeteria and admin) only sign in.

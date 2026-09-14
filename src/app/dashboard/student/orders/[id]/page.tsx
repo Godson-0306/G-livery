@@ -41,27 +41,21 @@ export default async function StudentOrderDetailPage({
         action={<StatusChip status={order.status} />}
       />
       <OrderTimeline status={order.status} />
-      <Card>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay the kitchen</p>
-        <h2 className="mt-1 text-lg font-semibold text-forest">{order.cafeteria.name}</h2>
-        <p className="mt-1 text-sm text-muted">
-          Food total {formatNgn(order.totalAmount)}. Pay the cafeteria in cash or transfer — G-Livery
-          does not charge food in the app.
-        </p>
-      </Card>
       {order.runner && agentPayout ? (
         <PayAgentCard
           agentName={order.runner.user.name}
           bankName={agentPayout.bankName}
           accountName={agentPayout.accountName}
           accountNumber={agentPayout.accountNumber}
+          amount={Number(order.totalAmount)}
         />
       ) : (
         <Card>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay your agent</p>
-          <h2 className="mt-1 text-lg font-semibold text-forest">Waiting for an agent</h2>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay the student</p>
+          <h2 className="mt-1 text-lg font-semibold text-forest">Waiting for a student agent</h2>
           <p className="mt-1 text-sm text-muted">
-            After someone accepts, their bank details appear here so you can transfer them off-platform.
+            Food total {formatNgn(order.totalAmount)}. After a student accepts, transfer that amount to
+            them — they pay the cafeteria when they pick up.
           </p>
         </Card>
       )}

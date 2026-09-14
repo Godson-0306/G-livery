@@ -48,7 +48,7 @@ model User {
   name               String
   email              String   @unique
   phone              String?
-  passwordHash       String
+  passwordHash       String?
   role               Role
   mustChangePassword Boolean  @default(false)
   isDisabled         Boolean  @default(false)

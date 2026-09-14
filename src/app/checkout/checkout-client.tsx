@@ -43,7 +43,7 @@ export function CheckoutClient() {
       <main className="page-wrap max-w-lg py-12">
         <EmptyState
           title="Your bag is empty"
-          body="Pick a cafeteria and add a few items. Food totals stay on the kitchen — no delivery fee in the app."
+          body="Pick a cafeteria and add a few items. You’ll transfer the food total to the student who delivers."
           actionHref="/cafeterias"
           actionLabel="Browse cafeterias"
         />
@@ -74,8 +74,8 @@ export function CheckoutClient() {
         title={cart.cafeteriaName}
         subtitle={
           cart.runnerSlug
-            ? `Tagged to agent /r/${cart.runnerSlug}. Food only — pay the kitchen off-platform.`
-            : "Any available agent can pick this up. Food only — pay the kitchen off-platform."
+            ? `Tagged to agent /r/${cart.runnerSlug}. Transfer the food total to that student after they accept.`
+            : "A student agent can pick this up. Transfer the food total to them after they accept."
         }
       />
       <Card className="mt-6" padded={false}>
@@ -109,7 +109,7 @@ export function CheckoutClient() {
         <div className="border-t border-line px-4 py-4">
           <p className="text-right text-lg font-semibold">Food total {formatNgn(subtotal)}</p>
           <p className="mt-1 text-right text-xs text-muted">
-            After an agent accepts, their transfer details appear on your order. No delivery fee in G-Livery.
+            After a student agent accepts, transfer the food total to them. They pay the cafeteria.
           </p>
         </div>
       </Card>
@@ -125,7 +125,7 @@ export function CheckoutClient() {
             <input
               name="deliveryLocation"
               required
-              placeholder="e.g. Hall 3, Room 214"
+              placeholder="e.g. Prophet Moses Block 1, Room 30"
               className={fieldClass()}
             />
           </Field>

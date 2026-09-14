@@ -29,7 +29,7 @@ export default async function StudentOrdersPage() {
           title="No orders yet"
           body="Browse a cafeteria and place your first bag. Tracking and transfer details show up here."
           actionHref="/cafeterias"
-          actionLabel="Browse kitchens"
+          actionLabel="Browse cafeterias"
         />
       ) : (
         <ul className="space-y-2">
