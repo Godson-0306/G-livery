@@ -11,7 +11,7 @@ export async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-20 border-b border-line/80 bg-background/90 backdrop-blur">
-      <div className="page-wrap flex h-14 items-center justify-between">
+      <div className="page-wrap flex h-16 items-center justify-between">
         <Brand />
         <nav className="flex items-center gap-2 text-sm sm:gap-3">
           <ThemeToggle />

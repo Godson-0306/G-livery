@@ -58,7 +58,7 @@ export function DashboardShell({
       <header className="border-b border-forest-dark bg-forest text-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
           <div className="min-w-0">
-            <Brand light />
+            <Brand />
             <Link href="/dashboard/profile" className="mt-0.5 block truncate text-xs text-emerald-100 hover:text-white">
               Hey, {firstName}
             </Link>

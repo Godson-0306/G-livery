@@ -10,7 +10,7 @@ export function AuthShell({
 }) {
   return (
     <div className="mx-auto flex min-h-full max-w-md flex-col justify-center px-4 py-12">
-      <Brand className="mb-1 text-xl" />
+      <Brand className="mb-1 text-xl" variant="text" />
       <p className="mb-8 text-sm text-muted">{TAGLINE}</p>
       <Card className="p-6 sm:p-7">
         {children}
