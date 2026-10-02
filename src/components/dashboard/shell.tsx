@@ -1,43 +1,12 @@
 import { logoutAction } from "@/actions/auth";
 import { Brand } from "@/components/brand";
-import { DashboardNav } from "@/components/dashboard/nav";
+import { AppTabBar } from "@/components/dashboard/nav";
 import { buttonClass } from "@/components/ui/button";
 import { DASHBOARD_HOME } from "@/auth.config";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ROLE_NAV } from "@/lib/nav";
 import Link from "next/link";
 import type { Role } from "@prisma/client";
-
-const NAV: Record<Role, Array<{ href: string; label: string }>> = {
-  admin: [
-    { href: "/dashboard/admin", label: "Overview" },
-    { href: "/dashboard/admin/cafeterias", label: "Cafeterias" },
-    { href: "/dashboard/admin/runners", label: "Agents" },
-    { href: "/dashboard/admin/orders", label: "Orders" },
-    { href: "/dashboard/admin/users", label: "Users" },
-    { href: "/dashboard/profile", label: "Profile" },
-  ],
-  cafeteria: [
-    { href: "/dashboard/cafeteria", label: "Home" },
-    { href: "/dashboard/cafeteria/menu", label: "Menu" },
-    { href: "/dashboard/cafeteria/orders", label: "Orders" },
-    { href: "/dashboard/cafeteria/qr", label: "QR code" },
-    { href: "/dashboard/profile", label: "Profile" },
-  ],
-  runner: [
-    { href: "/dashboard/runner", label: "Home" },
-    { href: "/dashboard/runner/orders", label: "Orders" },
-    { href: "/dashboard/runner/customers", label: "Customers" },
-    { href: "/dashboard/runner/subscribe", label: "Plan" },
-    { href: "/dashboard/profile", label: "Profile" },
-  ],
-  student: [
-    { href: "/dashboard/student", label: "Home" },
-    { href: "/cafeterias", label: "Browse" },
-    { href: "/agents", label: "Agents" },
-    { href: "/dashboard/student/orders", label: "Orders" },
-    { href: "/dashboard/profile", label: "Profile" },
-  ],
-};
 
 export function DashboardShell({
   role,
@@ -50,7 +19,7 @@ export function DashboardShell({
   unread: number;
   children: React.ReactNode;
 }) {
-  const links = NAV[role];
+  const links = ROLE_NAV[role];
   const home = DASHBOARD_HOME[role];
   const firstName = name.split(" ")[0] || name;
 
@@ -84,10 +53,9 @@ export function DashboardShell({
             </form>
           </div>
         </div>
-        <DashboardNav links={links} variant="top" />
       </header>
-      <main className="mx-auto w-full max-w-5xl px-4 py-6 pb-24 md:pb-8">{children}</main>
-      <DashboardNav links={links} variant="bottom" />
+      <main className="mx-auto w-full max-w-5xl px-4 py-6 pb-24">{children}</main>
+      <AppTabBar links={links} />
       <p className="sr-only">{home}</p>
     </div>
   );

@@ -35,7 +35,7 @@ export function CheckoutClient({ agents }: { agents: AgentBoardRow[] }) {
 
   if (!ready || status === "loading") {
     return (
-      <main className="page-wrap py-12">
+      <main className="page-wrap py-12 pb-24">
         <PageHeader title="Checkout" subtitle="Loading your bag…" />
       </main>
     );
@@ -43,7 +43,7 @@ export function CheckoutClient({ agents }: { agents: AgentBoardRow[] }) {
 
   if (!cart || cart.items.length === 0) {
     return (
-      <main className="page-wrap py-12">
+      <main className="page-wrap py-12 pb-24">
         <EmptyState
           title="Your bag is empty"
           body="Pick a cafeteria and add a few items. You’ll transfer the food total to the Agent."
@@ -56,7 +56,7 @@ export function CheckoutClient({ agents }: { agents: AgentBoardRow[] }) {
 
   if (status === "authenticated" && session?.user.role !== "student") {
     return (
-      <main className="page-wrap py-12">
+      <main className="page-wrap py-12 pb-24">
         <PageHeader
           title="Student account needed"
           subtitle={`You are logged in as ${session.user.role === "runner" ? "a delivery agent" : session.user.role}. Food orders have to be placed from a student account. Your bag will stay saved.`}
@@ -97,7 +97,7 @@ export function CheckoutClient({ agents }: { agents: AgentBoardRow[] }) {
   );
 
   return (
-    <main className="page-wrap py-8">
+    <main className="page-wrap py-8 pb-24">
       <PageHeader
         eyebrow="Checkout"
         title={cart.cafeteriaName}

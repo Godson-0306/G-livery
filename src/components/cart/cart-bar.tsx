@@ -3,14 +3,25 @@
 import { useCart } from "@/components/cart/cart-provider";
 import { buttonClass } from "@/components/ui/button";
 import { formatNgn } from "@/lib/money";
+import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 export function CartBar() {
   const { cart, itemCount, subtotal } = useCart();
+  const { status } = useSession();
   if (!cart || itemCount === 0) return null;
+  const raised = status === "authenticated";
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+    <div
+      className={cn(
+        "fixed inset-x-0 z-30 p-3",
+        raised
+          ? "bottom-16 pb-3"
+          : "bottom-0 pb-[max(0.75rem,env(safe-area-inset-bottom))]",
+      )}
+    >
       <div className="mx-auto max-w-5xl rounded-[1.5rem] bg-forest px-4 py-4 text-white shadow-lg">
         <div className="flex items-start justify-between gap-3">
           <div>

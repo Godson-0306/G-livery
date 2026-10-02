@@ -49,7 +49,7 @@ export function MenuBrowser({
   const categories = Object.keys(grouped);
 
   return (
-    <div className="space-y-8 pb-32">
+    <div className="space-y-8 pb-44">
       {categories.length > 1 ? (
         <nav className="sticky top-16 z-20 -mx-1 overflow-x-auto bg-background/90 px-1 py-2 backdrop-blur">
           <ul className="flex min-w-max gap-2">
