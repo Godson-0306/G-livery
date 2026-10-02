@@ -20,6 +20,14 @@ export const ORDER_FLOW: OrderStatus[] = ["placed", "accepted", "picked_up", "de
 
 export const OPEN_JOB_STATUSES: OrderStatus[] = ["placed", "accepted", "picked_up"];
 
+export const ORDER_STATUS_HEADLINE: Record<OrderStatus, string> = {
+  placed: "Waiting for an agent",
+  accepted: "Transfer the food total",
+  picked_up: "Your agent is on the way",
+  delivered: "Delivered",
+  cancelled: "This order was cancelled",
+};
+
 export function isOpenJob(status: string) {
   return (OPEN_JOB_STATUSES as string[]).includes(status);
 }

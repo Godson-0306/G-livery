@@ -52,7 +52,7 @@ export function ProfileForm({
           </Field>
           {profileState?.error ? <p className="text-sm text-rose-700">{profileState.error}</p> : null}
           {profileState?.success ? <p className="text-sm text-forest">{profileState.success}</p> : null}
-          <button type="submit" disabled={profilePending} className={buttonClass("primary", "h-11")}>
+          <button type="submit" disabled={profilePending} className={buttonClass("primary", "h-11 w-full sm:w-auto")}>
             {profilePending ? "Saving…" : "Save profile"}
           </button>
         </form>

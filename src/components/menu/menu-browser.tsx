@@ -2,6 +2,7 @@
 
 import { useCart } from "@/components/cart/cart-provider";
 import { buttonClass } from "@/components/ui/button";
+import { QuantityStepper } from "@/components/ui/quantity-stepper";
 import { formatNgn, toMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
@@ -15,6 +16,10 @@ type MenuItemView = {
   isAvailable: boolean;
   category: string | null;
 };
+
+function categoryAnchor(category: string) {
+  return `menu-${category.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+}
 
 export function MenuBrowser({
   cafeteriaId,
@@ -41,13 +46,30 @@ export function MenuBrowser({
     acc[key].push(item);
     return acc;
   }, {});
+  const categories = Object.keys(grouped);
 
   return (
     <div className="space-y-8 pb-32">
+      {categories.length > 1 ? (
+        <nav className="sticky top-16 z-20 -mx-1 overflow-x-auto bg-background/90 px-1 py-2 backdrop-blur">
+          <ul className="flex min-w-max gap-2">
+            {categories.map((category) => (
+              <li key={category}>
+                <a
+                  href={`#${categoryAnchor(category)}`}
+                  className="inline-flex rounded-full border border-forest/20 bg-card px-3.5 py-1.5 text-sm font-semibold text-forest"
+                >
+                  {category}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
       {Object.entries(grouped).map(([category, rows]) => (
-        <section key={category} className="space-y-3">
+        <section key={category} id={categoryAnchor(category)} className="scroll-mt-28 space-y-3">
           <h2 className="text-lg font-semibold text-forest">{category}</h2>
-          <ul className="space-y-3">
+          <ul className="grid gap-3 lg:grid-cols-2">
             {rows.map((item) => {
               const qty =
                 cart?.cafeteriaId === cafeteriaId
@@ -61,7 +83,7 @@ export function MenuBrowser({
                     !item.isAvailable && "opacity-70",
                   )}
                 >
-                  <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl bg-forest-soft">
+                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-forest-soft sm:h-28 sm:w-28">
                     {item.photoUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={item.photoUrl} alt="" className="h-full w-full object-cover" />
@@ -76,8 +98,10 @@ export function MenuBrowser({
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="font-semibold">{item.name}</h3>
-                      <p className="shrink-0 font-semibold text-forest">{formatNgn(toMoney(item.price))}</p>
+                      <h3 className="min-w-0 font-semibold">{item.name}</h3>
+                      <p className="shrink-0 font-semibold tabular-nums text-forest">
+                        {formatNgn(toMoney(item.price))}
+                      </p>
                     </div>
                     {item.description ? (
                       <p className="mt-0.5 line-clamp-2 text-sm text-muted">{item.description}</p>
@@ -86,27 +110,15 @@ export function MenuBrowser({
                       {!item.isAvailable ? (
                         <span className="text-xs font-semibold text-rose-700">Not available right now</span>
                       ) : qty > 0 ? (
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            className={buttonClass("secondary", "h-9 w-9 p-0")}
-                            onClick={() => setQuantity(item.id, qty - 1)}
-                          >
-                            −
-                          </button>
-                          <span className="w-6 text-center text-sm font-semibold">{qty}</span>
-                          <button
-                            type="button"
-                            className={buttonClass("primary", "h-9 w-9 p-0")}
-                            onClick={() => setQuantity(item.id, qty + 1)}
-                          >
-                            +
-                          </button>
-                        </div>
+                        <QuantityStepper
+                          value={qty}
+                          onDecrease={() => setQuantity(item.id, qty - 1)}
+                          onIncrease={() => setQuantity(item.id, qty + 1)}
+                        />
                       ) : (
                         <button
                           type="button"
-                          className={buttonClass("primary", "h-9 px-4 text-xs")}
+                          className={buttonClass("primary", "h-10 px-4 text-xs")}
                           onClick={() =>
                             addItem(
                               {

@@ -1,11 +1,9 @@
-import { CafeteriaLogo } from "@/components/cafeteria-logo";
+import { KitchenCard } from "@/components/cafeterias/kitchen-card";
 import { SiteHeader } from "@/components/site-header";
-import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { fieldClass } from "@/components/ui/field";
 import { PageHeader } from "@/components/ui/page-header";
 import { prisma } from "@/lib/prisma";
-import Link from "next/link";
 
 export default async function CafeteriasPage({
   searchParams,
@@ -39,7 +37,7 @@ export default async function CafeteriasPage({
           title="What’s cooking"
           subtitle="Tap a cafeteria for the live menu. You’ll pay the Agent — they settle the cafeteria."
         />
-        <form className="mt-6">
+        <form className="sticky top-16 z-20 -mx-1 mt-6 bg-background/90 px-1 py-3 backdrop-blur">
           <input
             name="q"
             defaultValue={query}
@@ -57,22 +55,16 @@ export default async function CafeteriasPage({
             />
           </div>
         ) : (
-          <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+          <ul className="mt-2 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {cafeterias.map((cafeteria) => (
               <li key={cafeteria.id}>
-                <Link href={`/cafeteria/${cafeteria.slug}`}>
-                  <Card className="flex gap-4 transition hover:border-forest/40">
-                    <CafeteriaLogo src={cafeteria.logoUrl} name={cafeteria.name} size="xl" />
-                    <div className="min-w-0">
-                      <h2 className="text-lg font-semibold text-forest">{cafeteria.name}</h2>
-                      <p className="mt-1 text-sm text-muted">{cafeteria.location ?? "Campus"}</p>
-                      {cafeteria.description ? (
-                        <p className="mt-2 line-clamp-2 text-sm text-muted">{cafeteria.description}</p>
-                      ) : null}
-                      <p className="mt-3 text-sm font-semibold text-forest">Open menu →</p>
-                    </div>
-                  </Card>
-                </Link>
+                <KitchenCard
+                  href={`/cafeteria/${cafeteria.slug}`}
+                  name={cafeteria.name}
+                  location={cafeteria.location}
+                  logoUrl={cafeteria.logoUrl}
+                  description={cafeteria.description}
+                />
               </li>
             ))}
           </ul>

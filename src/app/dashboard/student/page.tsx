@@ -1,14 +1,14 @@
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
-import { StatusChip } from "@/components/ui/status-chip";
 import { formatNgn } from "@/lib/money";
 import { RefreshOnInterval } from "@/components/refresh-on-interval";
 import { buttonClass } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
-import { OrderTimeline } from "@/components/ui/order-timeline";
+import { OrderTrackPanel } from "@/components/orders/order-track-panel";
+import { StudentOrderRow } from "@/components/orders/student-order-row";
 import { PageHeader } from "@/components/ui/page-header";
-import { PayAgentCard } from "@/components/pay-agent-card";
+import { CafeteriaLogo } from "@/components/cafeteria-logo";
 import { fetchRunnerPayout } from "@/lib/payout-db";
 import Link from "next/link";
 
@@ -57,37 +57,23 @@ export default async function StudentHomePage() {
 
       {active ? (
         <Card>
-          <div className="flex items-start justify-between gap-3">
-            <div>
+          <div className="flex items-start gap-4">
+            <CafeteriaLogo src={active.cafeteria.logoUrl} name={active.cafeteria.name} size="md" />
+            <div className="min-w-0 flex-1">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Active order</p>
               <h2 className="mt-1 text-lg font-semibold text-forest">{active.cafeteria.name}</h2>
               <p className="text-sm text-muted">
                 {formatNgn(active.totalAmount)} · {active.deliveryLocation}
               </p>
             </div>
-            <StatusChip status={active.status} />
           </div>
-          <div className="mt-4">
-            <OrderTimeline status={active.status} />
-          </div>
-          <div className="mt-4">
-            {active.runner && activePayout ? (
-              <PayAgentCard
-                agentName={active.runner.user.name}
-                bankName={activePayout.bankName}
-                accountName={activePayout.accountName}
-                accountNumber={activePayout.accountNumber}
-                amount={Number(active.totalAmount)}
-              />
-            ) : (
-              <div className="rounded-2xl bg-forest-soft/80 px-4 py-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-muted">Pay the student</p>
-                <p className="mt-1 text-sm">
-                  Food total {formatNgn(active.totalAmount)}. After a student agent accepts, transfer that
-                  amount to them — they settle the cafeteria.
-                </p>
-              </div>
-            )}
+          <div className="mt-5">
+            <OrderTrackPanel
+              status={active.status}
+              amount={Number(active.totalAmount)}
+              runnerName={active.runner?.user.name}
+              payout={activePayout}
+            />
           </div>
           <Link
             href={`/dashboard/student/orders/${active.id}`}
@@ -118,14 +104,15 @@ export default async function StudentHomePage() {
           <ul className="mt-3 space-y-2">
             {recent.map((order) => (
               <li key={order.id}>
-                <Link href={`/dashboard/student/orders/${order.id}`}>
-                  <Card className="flex items-center justify-between gap-3 py-3">
-                    <span>
-                      {order.cafeteria.name} · {formatNgn(order.totalAmount)}
-                    </span>
-                    <StatusChip status={order.status} />
-                  </Card>
-                </Link>
+                <StudentOrderRow
+                  href={`/dashboard/student/orders/${order.id}`}
+                  cafeteriaName={order.cafeteria.name}
+                  cafeteriaLogoUrl={order.cafeteria.logoUrl}
+                  amount={order.totalAmount}
+                  location={order.deliveryLocation}
+                  createdAt={order.createdAt}
+                  status={order.status}
+                />
               </li>
             ))}
           </ul>

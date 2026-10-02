@@ -1,9 +1,10 @@
 import { AgentRatingLine } from "@/components/agents/agent-rating";
+import { QueueBadge } from "@/components/agents/queue-badge";
 import { SiteHeader } from "@/components/site-header";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
-import { formatAgentQueue, listLiveAgents } from "@/lib/agents";
+import { listLiveAgents } from "@/lib/agents";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -18,7 +19,7 @@ export default async function AgentsLeaderboardPage() {
   return (
     <div className="min-h-full">
       <SiteHeader />
-      <main className="page-wrap max-w-lg py-8">
+      <main className="page-wrap py-8">
         <PageHeader
           eyebrow="Delivery agents"
           title="Agent leaderboard"
@@ -34,23 +35,25 @@ export default async function AgentsLeaderboardPage() {
             />
           </div>
         ) : (
-          <ol className="mt-6 space-y-3">
+          <ol className="mt-6 grid gap-3 sm:grid-cols-2">
             {agents.map((agent, index) => (
               <li key={agent.id}>
-                <Link href={`/r/${agent.slug}`}>
-                  <Card className="flex items-start gap-4 transition hover:border-forest/40">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-forest-soft text-sm font-semibold text-forest">
+                <Link href={`/r/${agent.slug}`} className="block h-full">
+                  <Card className="flex h-full items-start gap-4 transition hover:border-forest/40">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-forest-soft text-sm font-semibold text-forest">
                       {index + 1}
                     </span>
-                    <div className="min-w-0">
-                      <h2 className="font-semibold text-forest">{agent.name}</h2>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="font-semibold text-forest">{agent.name}</h2>
+                        <QueueBadge count={agent.queueCount} />
+                      </div>
                       <AgentRatingLine
                         averageStars={agent.averageStars}
                         ratingCount={agent.ratingCount}
                         className="mt-1 text-muted"
                       />
-                      <p className="mt-1 text-sm text-muted">{formatAgentQueue(agent.queueCount)}</p>
-                      <p className="mt-2 text-sm font-semibold text-forest">Order with {agent.name} →</p>
+                      <p className="mt-3 text-sm font-semibold text-forest">Order with {agent.name} →</p>
                     </div>
                   </Card>
                 </Link>

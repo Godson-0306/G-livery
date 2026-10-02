@@ -1,10 +1,10 @@
 "use client";
 
 import { AgentRatingLine } from "@/components/agents/agent-rating";
+import { QueueBadge } from "@/components/agents/queue-badge";
 import { useCart } from "@/components/cart/cart-provider";
 import { fieldClass } from "@/components/ui/field";
 import type { AgentBoardRow } from "@/lib/agents";
-import { formatAgentQueue } from "@/lib/agents";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 
@@ -28,7 +28,7 @@ export function AgentPicker({ agents }: { agents: AgentBoardRow[] }) {
   const poolSelected = !selectedSlug && !chooseOpen;
 
   return (
-    <fieldset className="mt-6">
+    <fieldset>
       <legend className="text-sm font-semibold text-forest">Who should deliver?</legend>
       <p className="mt-1 text-sm text-muted">
         Leave it open for whoever is free, or choose an Agent yourself.
@@ -147,9 +147,7 @@ export function AgentPicker({ agents }: { agents: AgentBoardRow[] }) {
                           ratingCount={agent.ratingCount}
                           className="mt-0.5 text-muted"
                         />
-                        <span className="mt-0.5 block text-sm text-muted">
-                          {formatAgentQueue(agent.queueCount)}
-                        </span>
+                        <QueueBadge count={agent.queueCount} className="mt-1" />
                       </span>
                     </label>
                   </li>

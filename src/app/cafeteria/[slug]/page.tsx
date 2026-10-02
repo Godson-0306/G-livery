@@ -23,25 +23,27 @@ export default async function PublicCafeteriaPage({
   return (
     <div className="min-h-full">
       <SiteHeader />
-      <main className="page-wrap max-w-lg py-8">
+      <main className="page-wrap py-8">
         <div className="flex items-start gap-4">
           <CafeteriaLogo src={cafeteria.logoUrl} name={cafeteria.name} size="xl" />
-          <div>
+          <div className="min-w-0">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber">Live e-menu</p>
             <h1 className="mt-1 text-3xl font-semibold tracking-tight text-forest">{cafeteria.name}</h1>
-            <p className="mt-1 text-sm text-muted">{cafeteria.location}</p>
+            <p className="mt-1 inline-flex rounded-full bg-forest-soft px-2.5 py-0.5 text-xs font-semibold text-forest">
+              {cafeteria.location ?? "Campus"}
+            </p>
           </div>
         </div>
         {cafeteria.description ? (
-          <p className="mt-4 text-sm text-muted">{cafeteria.description}</p>
+          <p className="mt-4 max-w-2xl text-sm text-muted">{cafeteria.description}</p>
         ) : null}
         {runner ? (
-          <p className="mt-3 rounded-2xl bg-forest-soft px-4 py-3 text-sm text-forest">
+          <p className="mt-4 rounded-2xl bg-forest-soft px-4 py-3 text-sm text-forest">
             This bag is tagged to your Agent. Transfer the food total to them after they
             accept — they pay the cafeteria.
           </p>
         ) : (
-          <p className="mt-3 text-sm text-muted">
+          <p className="mt-4 text-sm text-muted">
             Transfer the food total to the Agent. They pay the cafeteria when they pick up.
           </p>
         )}

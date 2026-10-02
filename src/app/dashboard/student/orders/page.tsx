@@ -1,12 +1,9 @@
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
-import { StatusChip } from "@/components/ui/status-chip";
-import { formatNgn } from "@/lib/money";
 import { RefreshOnInterval } from "@/components/refresh-on-interval";
-import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
-import Link from "next/link";
+import { StudentOrderRow } from "@/components/orders/student-order-row";
 
 export default async function StudentOrdersPage() {
   const session = await requireRole("student");
@@ -35,14 +32,15 @@ export default async function StudentOrdersPage() {
         <ul className="space-y-2">
           {orders.map((order) => (
             <li key={order.id}>
-              <Link href={`/dashboard/student/orders/${order.id}`}>
-                <Card className="flex items-center justify-between gap-3 py-3">
-                  <span>
-                    {order.cafeteria.name} · {formatNgn(order.totalAmount)}
-                  </span>
-                  <StatusChip status={order.status} />
-                </Card>
-              </Link>
+              <StudentOrderRow
+                href={`/dashboard/student/orders/${order.id}`}
+                cafeteriaName={order.cafeteria.name}
+                cafeteriaLogoUrl={order.cafeteria.logoUrl}
+                amount={order.totalAmount}
+                location={order.deliveryLocation}
+                createdAt={order.createdAt}
+                status={order.status}
+              />
             </li>
           ))}
         </ul>

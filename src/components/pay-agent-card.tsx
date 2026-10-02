@@ -34,7 +34,7 @@ export function PayAgentCard({
 
   if (!complete) {
     return (
-      <Card>
+      <Card className="bg-forest-soft/50">
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay this Agent</p>
         <h2 className="mt-1 text-lg font-semibold text-forest">{agentName}</h2>
         <p className="mt-1 text-sm text-muted">
@@ -50,27 +50,33 @@ export function PayAgentCard({
     { label: "Account name", value: accountName },
     { label: "Account number", value: accountNumber },
   ];
+  const allDetails = `${bankName}\n${accountName}\n${accountNumber}${amount != null ? `\n${formatNgn(amount)}` : ""}`;
 
   return (
-    <Card>
+    <Card className="border-forest/20 bg-forest-soft/40">
       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay this Agent</p>
       <h2 className="mt-1 text-lg font-semibold text-forest">{agentName}</h2>
       {amount != null ? (
-        <p className="mt-1 text-lg font-semibold text-forest">{formatNgn(amount)}</p>
+        <p className="mt-2 text-3xl font-semibold tabular-nums tracking-tight text-forest">
+          {formatNgn(amount)}
+        </p>
       ) : null}
       <p className="mt-1 text-sm text-muted">
-        Transfer the food total to this Agent. They pay the cafeteria when they pick up.
+        Transfer the food total now. They pay the cafeteria when they collect.
       </p>
       <ul className="mt-4 space-y-2">
         {rows.map((row) => (
-          <li key={row.label} className="flex items-center justify-between gap-3 rounded-2xl bg-forest-soft/70 px-3 py-2.5">
+          <li
+            key={row.label}
+            className="flex items-center justify-between gap-3 rounded-2xl bg-card px-3 py-3"
+          >
             <div className="min-w-0">
               <p className="text-[11px] uppercase tracking-wide text-muted">{row.label}</p>
-              <p className="truncate font-medium">{row.value}</p>
+              <p className="truncate font-semibold tabular-nums text-forest">{row.value}</p>
             </div>
             <button
               type="button"
-              className={buttonClass("secondary", "h-8 px-3 text-xs")}
+              className={buttonClass("secondary", "h-10 shrink-0 px-3")}
               onClick={() => copy(row.label, row.value)}
             >
               {copied === row.label ? "Copied" : "Copy"}
@@ -78,6 +84,13 @@ export function PayAgentCard({
           </li>
         ))}
       </ul>
+      <button
+        type="button"
+        className={buttonClass("amber", "mt-3 h-11 w-full")}
+        onClick={() => copy("all", allDetails)}
+      >
+        {copied === "all" ? "Copied all details" : "Copy all details"}
+      </button>
     </Card>
   );
 }
