@@ -28,7 +28,7 @@ export default function RunnerSignupPage() {
         subtitle="Get a personal order link. Students transfer the food total to you — you pay the cafeteria when you pick up."
         submitLabel="Create agent account"
         passwordHint="At least 8 characters."
-        oauth={google ? <GoogleSignInButton role="runner" redirectTo="/dashboard/runner" /> : undefined}
+        oauth={google ? <GoogleSignInButton role="runner" redirectTo="/dashboard/runner/welcome" /> : undefined}
         extraFields={
           <>
             <Field label="Full name">

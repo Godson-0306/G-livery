@@ -146,7 +146,7 @@ export async function signupRunnerAction(
   await signIn("credentials", {
     email,
     password: parsed.data.password,
-    redirectTo: "/dashboard/runner",
+    redirectTo: "/dashboard/runner/welcome",
   });
 }
 
