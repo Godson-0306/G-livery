@@ -87,12 +87,13 @@ export async function setRunnerSubscriptionAction(formData: FormData) {
   const expiresAt =
     status === "active" ? new Date(Date.now() + days * 24 * 60 * 60 * 1000) : null;
 
-  await prisma.runner.update({
+  const runner = await prisma.runner.update({
     where: { id: runnerId },
     data: {
       subscriptionStatus: status,
       subscriptionExpiresAt: expiresAt,
     },
+    select: { userId: true },
   });
 
   if (status === "active") {
@@ -108,6 +109,7 @@ export async function setRunnerSubscriptionAction(formData: FormData) {
   }
 
   revalidatePath("/dashboard/admin/runners");
+  revalidatePath(`/dashboard/admin/users/${runner.userId}`);
 }
 
 export async function toggleUserDisabledAction(userId: string, isDisabled: boolean) {
@@ -117,4 +119,6 @@ export async function toggleUserDisabledAction(userId: string, isDisabled: boole
     data: { isDisabled },
   });
   revalidatePath("/dashboard/admin/users");
+  revalidatePath(`/dashboard/admin/users/${userId}`);
+  revalidatePath("/dashboard/admin/runners");
 }

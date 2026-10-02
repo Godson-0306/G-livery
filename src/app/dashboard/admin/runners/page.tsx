@@ -8,6 +8,7 @@ import { hasPayoutDetails } from "@/lib/payout";
 import { fetchRunnerPayouts } from "@/lib/payout-db";
 import { prisma } from "@/lib/prisma";
 import { syncRunnerSubscription } from "@/lib/subscription";
+import Link from "next/link";
 
 export default async function AdminRunnersPage() {
   await requireRole("admin");
@@ -24,7 +25,7 @@ export default async function AdminRunnersPage() {
       <PageHeader
         eyebrow="Admin"
         title="Delivery agents"
-        subtitle="Activate subscriptions after off-platform payment if Flutterwave is not configured. Payout details are for student transfers, not a platform fee."
+        subtitle="Open an agent for phone and payout numbers. Activate subscriptions after off-platform payment if Flutterwave is not configured."
       />
       {runners.length === 0 ? (
         <EmptyState title="No agents yet" body="Agents appear here after they sign up with a payout account." />
@@ -36,11 +37,23 @@ export default async function AdminRunnersPage() {
               <li key={runner.id}>
                 <Card>
                   <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <h2 className="font-semibold text-forest">{runner.user.name}</h2>
-                      <p className="text-sm text-muted">
-                        {runner.user.email} · /r/{runner.personalSlug}
-                      </p>
+                    <div className="min-w-0 flex-1">
+                      <Link href={`/dashboard/admin/users/${runner.userId}`}>
+                        <h2 className="font-semibold text-forest">{runner.user.name}</h2>
+                        <p className="mt-1 text-sm text-muted">
+                          {runner.user.email} · /r/{runner.personalSlug}
+                        </p>
+                      </Link>
+                      {runner.user.phone ? (
+                        <a
+                          href={`tel:${runner.user.phone}`}
+                          className="mt-1 block text-sm font-semibold tabular-nums text-forest"
+                        >
+                          {runner.user.phone}
+                        </a>
+                      ) : (
+                        <p className="mt-1 text-sm text-muted">No phone</p>
+                      )}
                       <p className="mt-1 text-xs text-muted">
                         {runner.subscriptionStatus}
                         {runner.subscriptionExpiresAt
