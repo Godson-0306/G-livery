@@ -25,7 +25,7 @@ export default async function AdminRunnersPage() {
       <PageHeader
         eyebrow="Admin"
         title="Delivery agents"
-        subtitle="Open an agent for phone and payout numbers. Activate subscriptions after off-platform payment if Flutterwave is not configured."
+        subtitle="Activate subscriptions after off-platform payment if Flutterwave is not configured. Payout details are for student transfers, not a platform fee."
       />
       {runners.length === 0 ? (
         <EmptyState title="No agents yet" body="Agents appear here after they sign up with a payout account." />
@@ -36,24 +36,16 @@ export default async function AdminRunnersPage() {
             return (
               <li key={runner.id}>
                 <Card>
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div className="min-w-0 flex-1">
-                      <Link href={`/dashboard/admin/users/${runner.userId}`}>
-                        <h2 className="font-semibold text-forest">{runner.user.name}</h2>
-                        <p className="mt-1 text-sm text-muted">
-                          {runner.user.email} · /r/{runner.personalSlug}
-                        </p>
-                      </Link>
-                      {runner.user.phone ? (
-                        <a
-                          href={`tel:${runner.user.phone}`}
-                          className="mt-1 block text-sm font-semibold tabular-nums text-forest"
-                        >
-                          {runner.user.phone}
-                        </a>
-                      ) : (
-                        <p className="mt-1 text-sm text-muted">No phone</p>
-                      )}
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0">
+                      <h2 className="font-semibold text-forest">
+                        <Link href={`/dashboard/admin/users/${runner.userId}`} className="hover:underline">
+                          {runner.user.name}
+                        </Link>
+                      </h2>
+                      <p className="mt-1 break-words text-sm text-muted">
+                        {runner.user.email} · /r/{runner.personalSlug}
+                      </p>
                       <p className="mt-1 text-xs text-muted">
                         {runner.subscriptionStatus}
                         {runner.subscriptionExpiresAt
@@ -74,7 +66,7 @@ export default async function AdminRunnersPage() {
                           : "Payout details incomplete"}
                       </p>
                     </div>
-                    <form action={setRunnerSubscriptionAction} className="flex flex-wrap gap-2">
+                    <form action={setRunnerSubscriptionAction} className="flex shrink-0 flex-wrap gap-2">
                       <input type="hidden" name="runnerId" value={runner.id} />
                       <button name="status" value="active" className={buttonClass("primary", "h-8 text-xs")}>
                         Activate
