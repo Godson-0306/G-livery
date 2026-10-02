@@ -5,6 +5,7 @@ import { formatNgn } from "@/lib/money";
 import { RefreshOnInterval } from "@/components/refresh-on-interval";
 import { ClearCart } from "@/components/cart/clear-cart";
 import { Card } from "@/components/ui/card";
+import { OrderChatSection } from "@/components/orders/order-chat-section";
 import { OrderTrackPanel } from "@/components/orders/order-track-panel";
 import { RateAgentForm } from "@/components/agents/rate-agent-form";
 import { CafeteriaLogo } from "@/components/cafeteria-logo";
@@ -89,6 +90,7 @@ export default async function StudentOrderDetailPage({
             </p>
           </Card>
           <StatusActions orderId={order.id} status={order.status} role="student" />
+          <OrderChatSection orderId={order.id} userId={session.user.id} role="student" />
         </div>
       </div>
     </div>

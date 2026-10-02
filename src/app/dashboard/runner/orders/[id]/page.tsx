@@ -6,6 +6,7 @@ import { formatNgn } from "@/lib/money";
 import { RefreshOnInterval } from "@/components/refresh-on-interval";
 import { isRunnerLive, syncRunnerSubscription } from "@/lib/subscription";
 import { Card } from "@/components/ui/card";
+import { OrderChatSection } from "@/components/orders/order-chat-section";
 import { OrderTimeline } from "@/components/ui/order-timeline";
 import { PageHeader } from "@/components/ui/page-header";
 import { notFound } from "next/navigation";
@@ -80,6 +81,7 @@ export default async function RunnerOrderDetailPage({
           Activate your subscription to accept, mark on the way, or deliver this order.
         </p>
       )}
+      <OrderChatSection orderId={order.id} userId={session.user.id} role="runner" />
     </div>
   );
 }

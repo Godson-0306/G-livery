@@ -1,7 +1,7 @@
 import { requireSession } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
-import { markNotificationsReadAction, openNotificationAction } from "@/actions/notifications";
-import { buttonClass } from "@/components/ui/button";
+import { openNotificationAction } from "@/actions/notifications";
+import { MarkAlertsReadOnOpen } from "@/components/alerts/mark-alerts-read-on-open";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
@@ -15,21 +15,15 @@ export default async function NotificationsPage() {
     take: 40,
   });
 
+  const hasUnread = items.some((item) => !item.readAt);
+
   return (
     <div className="space-y-4">
+      <MarkAlertsReadOnOpen hasUnread={hasUnread} />
       <PageHeader
         eyebrow="Inbox"
         title="Alerts"
-        subtitle="Newest first. Opening an alert marks it as read."
-        action={
-          items.some((item) => !item.readAt) ? (
-            <form action={markNotificationsReadAction}>
-              <button type="submit" className={buttonClass("secondary", "h-9 text-xs")}>
-                Mark all read
-              </button>
-            </form>
-          ) : null
-        }
+        subtitle="Newest first. Opening this page marks alerts as read."
       />
       {items.length === 0 ? (
         <EmptyState title="No alerts yet" body="Status changes on your orders will show up here." />

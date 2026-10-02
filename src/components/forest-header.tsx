@@ -1,4 +1,5 @@
 import { logoutAction } from "@/actions/auth";
+import { LiveAlertsBadge } from "@/components/alerts/live-alerts-badge";
 import { Brand } from "@/components/brand";
 import { buttonClass } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -23,11 +24,7 @@ export function ForestHeader({ name, unread }: { name: string; unread: number })
             className="relative rounded-full bg-white/10 px-3 py-1.5"
           >
             Alerts
-            {unread > 0 ? (
-              <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-amber px-1 text-[10px] font-bold text-stone-900">
-                {unread > 9 ? "9+" : unread}
-              </span>
-            ) : null}
+            <LiveAlertsBadge initialCount={unread} />
           </Link>
           <form action={logoutAction}>
             <button type="submit" className={buttonClass("amber", "h-8 px-3 text-xs")}>

@@ -57,6 +57,7 @@ model User {
   orders          Order[]        @relation("StudentOrders")
   notifications   Notification[]
   runnerRatings   RunnerRating[]
+  orderMessages   OrderMessage[]
 }
 
 model Cafeteria {
@@ -133,8 +134,9 @@ model Order {
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
 
-  items   OrderItem[]
-  rating  RunnerRating?
+  items    OrderItem[]
+  rating   RunnerRating?
+  messages OrderMessage[]
 
   @@index([status])
   @@index([runnerId])
@@ -179,6 +181,18 @@ model Subscription {
   createdAt        DateTime                  @default(now())
 
   @@index([runnerId])
+}
+
+model OrderMessage {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([orderId, createdAt])
 }
 
 model Notification {
