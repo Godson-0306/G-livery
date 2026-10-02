@@ -31,7 +31,7 @@ export default async function RunnerStorefrontPage({
   return (
     <div className="min-h-full">
       <SiteHeader />
-      <main className="page-wrap py-8">
+      <main className="page-wrap py-8 pb-24">
         <section className="rounded-[1.6rem] border border-amber/20 bg-gradient-to-br from-[#0c1210] via-[#13201a] to-[#1b5e3b]/40 px-6 py-10 text-[#f3eee4]">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-amber">
             Ordering with an agent

@@ -136,7 +136,7 @@ export function CustomersBoard({ customers }: { customers: CustomerRow[] }) {
                     <th className="px-5 py-3">Orders</th>
                     <th className="px-5 py-3">Volume</th>
                     <th className="px-5 py-3">Last job</th>
-                    <th className="px-5 py-3">
+                    <th className="sticky right-0 bg-forest-soft/70 px-3 py-3 sm:px-5">
                       <span className="sr-only">Actions</span>
                     </th>
                   </tr>
@@ -156,7 +156,7 @@ export function CustomersBoard({ customers }: { customers: CustomerRow[] }) {
                             </Link>
                             <p className="truncate text-xs text-muted">{customer.lastLocation}</p>
                             {customer.active > 0 ? (
-                              <p className="mt-1 inline-flex rounded-full bg-amber/20 px-2 py-0.5 text-[11px] font-semibold text-stone-900">
+                              <p className="mt-1 inline-flex rounded-full border border-amber/30 bg-amber/15 px-2 py-0.5 text-[11px] font-semibold text-amber">
                                 {customer.active} open
                               </p>
                             ) : null}
@@ -171,26 +171,26 @@ export function CustomersBoard({ customers }: { customers: CustomerRow[] }) {
                         {customer.orders}
                         <span className="block text-xs text-muted">{customer.delivered} delivered</span>
                       </td>
-                      <td className="px-5 py-4 font-semibold tabular-nums text-forest">
+                      <td className="px-5 py-4 font-sans font-semibold tabular-nums text-forest">
                         {formatNgn(customer.volume)}
                       </td>
                       <td className="px-5 py-4">
                         <p className="text-forest">{customer.lastCafeteria}</p>
                         <p className="text-xs text-muted">{formatWhen(customer.lastOrderAt)}</p>
                       </td>
-                      <td className="px-5 py-4 text-right">
+                      <td className="sticky right-0 bg-card px-3 py-4 text-right sm:px-5">
                         <div className="flex justify-end gap-2">
                           {customer.phone ? (
                             <a
                               href={`tel:${customer.phone}`}
-                              className={buttonClass("secondary", "h-10 px-3")}
+                              className={buttonClass("secondary", "h-9 px-3 text-xs")}
                             >
                               Call
                             </a>
                           ) : null}
                           <Link
                             href={`/dashboard/runner/customers/${customer.id}`}
-                            className={buttonClass("primary", "h-10 px-3")}
+                            className={buttonClass("primary", "h-9 px-3 text-xs")}
                           >
                             Open
                           </Link>
@@ -231,7 +231,7 @@ function CustomerCard({ customer }: { customer: CustomerRow }) {
               </p>
             </div>
             {customer.active > 0 ? (
-              <span className="shrink-0 rounded-full bg-amber/20 px-2 py-0.5 text-[11px] font-semibold text-stone-900">
+              <span className="shrink-0 rounded-full border border-amber/30 bg-amber/15 px-2 py-0.5 text-[11px] font-semibold text-amber">
                 {customer.active} open
               </span>
             ) : null}

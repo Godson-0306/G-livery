@@ -15,10 +15,24 @@ export function uniqueSlug(base: string) {
 }
 
 export function appUrl(path = "") {
-  const base = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(
-    /\/$/,
-    "",
-  );
+  const candidates = [
+    process.env.NEXT_PUBLIC_APP_URL,
+    process.env.AUTH_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : undefined,
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
+  ].filter((value): value is string => Boolean(value));
+
+  const live = candidates.find((url) => {
+    try {
+      const host = new URL(url.includes("://") ? url : `https://${url}`).hostname;
+      return host !== "localhost" && host !== "127.0.0.1";
+    } catch {
+      return false;
+    }
+  });
+  const base = (live ?? candidates[0] ?? "http://localhost:3000").replace(/\/$/, "");
   if (!path) return base;
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }

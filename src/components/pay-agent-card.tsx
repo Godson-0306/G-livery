@@ -57,7 +57,7 @@ export function PayAgentCard({
       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay this Agent</p>
       <h2 className="mt-1 font-display text-xl font-medium text-heading">{agentName}</h2>
       {amount != null ? (
-        <p className="mt-2 font-display text-3xl font-medium tabular-nums tracking-tight text-heading">
+        <p className="mt-2 font-sans text-3xl font-semibold tabular-nums tracking-tight text-heading">
           {formatNgn(amount)}
         </p>
       ) : null}

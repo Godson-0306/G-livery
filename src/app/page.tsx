@@ -15,7 +15,7 @@ export default async function HomePage() {
   return (
     <div className="flex min-h-full flex-col">
       <SiteHeader />
-      <main className="page-wrap flex flex-1 flex-col gap-14 py-12">
+      <main className="page-wrap flex flex-1 flex-col gap-14 py-12 pb-24">
         <section className="overflow-hidden rounded-[1.75rem] border border-amber/20 bg-gradient-to-br from-[#0c1210] via-[#13201a] to-[#1b5e3b]/40 px-6 py-14 text-[#f3eee4] sm:px-12 sm:py-20">
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-amber">G-Livery</p>
           <h1 className="mt-4 max-w-xl font-display text-5xl font-medium leading-[1.05] tracking-tight sm:text-7xl">

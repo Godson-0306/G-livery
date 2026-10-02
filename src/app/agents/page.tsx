@@ -19,7 +19,7 @@ export default async function AgentsLeaderboardPage() {
   return (
     <div className="min-h-full">
       <SiteHeader />
-      <main className="page-wrap py-8">
+      <main className="page-wrap py-8 pb-24">
         <PageHeader
           eyebrow="Delivery agents"
           title="Agent leaderboard"

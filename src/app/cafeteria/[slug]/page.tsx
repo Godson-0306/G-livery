@@ -23,7 +23,7 @@ export default async function PublicCafeteriaPage({
   return (
     <div className="min-h-full">
       <SiteHeader />
-      <main className="page-wrap py-8">
+      <main className="page-wrap py-8 pb-24">
         <div className="flex items-start gap-4">
           <CafeteriaLogo src={cafeteria.logoUrl} name={cafeteria.name} size="xl" />
           <div className="min-w-0">

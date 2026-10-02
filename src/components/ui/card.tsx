@@ -26,7 +26,7 @@ export function StatCard({
   return (
     <Card className="min-w-0">
       <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber">{label}</p>
-      <p className="mt-2 font-display text-2xl font-medium tabular-nums leading-tight tracking-tight text-heading sm:text-3xl">
+      <p className="mt-2 font-sans text-2xl font-semibold tabular-nums leading-tight tracking-tight text-heading sm:text-3xl">
         {value}
       </p>
     </Card>

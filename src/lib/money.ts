@@ -3,11 +3,10 @@ export function toMoney(value: { toString(): string } | number | string) {
 }
 
 export function formatNgn(value: { toString(): string } | number | string) {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
+  const formatted = new Intl.NumberFormat("en-NG", {
     maximumFractionDigits: 0,
   }).format(toMoney(value));
+  return `₦\u202F${formatted}`;
 }
 
 export function subscriptionAmount() {

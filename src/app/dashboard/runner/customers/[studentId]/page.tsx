@@ -82,7 +82,7 @@ export default async function RunnerCustomerDetailPage({
                   {student.phone ?? "No phone on file"}
                 </p>
                 {active > 0 ? (
-                  <p className="mt-2 inline-flex rounded-full bg-amber/20 px-2.5 py-0.5 text-[11px] font-semibold text-stone-900">
+                  <p className="mt-2 inline-flex rounded-full border border-amber/30 bg-amber/15 px-2.5 py-0.5 text-[11px] font-semibold text-amber">
                     {active} open {active === 1 ? "job" : "jobs"}
                   </p>
                 ) : null}

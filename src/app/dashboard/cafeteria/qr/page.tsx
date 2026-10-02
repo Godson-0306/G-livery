@@ -11,7 +11,7 @@ export default async function CafeteriaQrPage() {
   const cafeteria = await prisma.cafeteria.findFirst({ where: { ownerId: session.user.id } });
   if (!cafeteria) return <p>No cafeteria linked.</p>;
 
-  const url = cafeteria.qrCodeUrl || appUrl(`/cafeteria/${cafeteria.slug}`);
+  const url = appUrl(`/cafeteria/${cafeteria.slug}`);
 
   return (
     <div className="space-y-4">
