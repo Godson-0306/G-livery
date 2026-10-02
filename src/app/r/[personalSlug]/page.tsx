@@ -4,7 +4,7 @@ import { CafeteriaLogo } from "@/components/cafeteria-logo";
 import { SiteHeader } from "@/components/site-header";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
-import { getAgentStats } from "@/lib/agents";
+import { formatAgentQueue, getAgentStats } from "@/lib/agents";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -43,6 +43,7 @@ export default async function RunnerStorefrontPage({
             ratingCount={stats.ratingCount}
             className="mt-2 text-emerald-100"
           />
+          <p className="mt-2 text-sm text-emerald-100">{formatAgentQueue(stats.queueCount)}</p>
           <p className="mt-3 text-sm text-emerald-100">
             Pick a cafeteria, add food, and this order is tagged to {runner.user.name}. Transfer the food
             total to {runner.user.name} after they accept — they pay the cafeteria when they pick up.

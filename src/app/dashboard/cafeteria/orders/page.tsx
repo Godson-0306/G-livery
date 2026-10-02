@@ -14,7 +14,7 @@ export default async function CafeteriaOrdersPage() {
   if (!cafeteria) return <p>No cafeteria linked.</p>;
 
   const orders = await prisma.order.findMany({
-    where: { cafeteriaId: cafeteria.id },
+    where: { cafeteriaId: cafeteria.id, status: { in: ["accepted", "picked_up", "delivered"] } },
     include: { student: true },
     orderBy: { createdAt: "desc" },
   });
@@ -25,12 +25,12 @@ export default async function CafeteriaOrdersPage() {
       <PageHeader
         eyebrow="Kitchen"
         title="Kitchen orders"
-        subtitle="Open a ticket to start preparing or mark it packed."
+        subtitle="Accepted tickets and later. Cook from the ticket; agents update delivery."
       />
       {orders.length === 0 ? (
         <EmptyState
           title="No orders yet"
-          body="When students order from your e-menu, tickets appear here for the pass."
+          body="When an agent accepts a student order from your e-menu, tickets appear here."
         />
       ) : (
         <ul className="space-y-2">

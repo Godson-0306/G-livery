@@ -105,13 +105,6 @@ export async function placeOrderAction(
     return { error: "Could not place that order. Refresh the menu and try again." };
   }
 
-  await notify({
-    userId: cafeteria.ownerId,
-    title: "New order",
-    body: `Order from ${session.user.name ?? "a student"} — ₦${totalAmount.toLocaleString()}`,
-    link: `/dashboard/cafeteria/orders/${createdId}`,
-  });
-
   if (runnerId) {
     const runner = await prisma.runner.findUnique({ where: { id: runnerId } });
     if (runner) {
@@ -125,6 +118,8 @@ export async function placeOrderAction(
   }
 
   revalidatePath("/dashboard/student");
+  revalidatePath("/agents");
+  revalidatePath("/r", "layout");
   redirect(`/dashboard/student/orders/${createdId}`);
 }
 
@@ -195,8 +190,6 @@ export async function updateOrderStatusAction(orderId: string, nextStatus: Order
 
   const studentMessage: Partial<Record<OrderStatus, string>> = {
     accepted: "A delivery agent accepted your order.",
-    preparing: `${order.cafeteria.name} is preparing your food.`,
-    ready: "Your order is packed.",
     picked_up: "Your delivery agent is on the way.",
     delivered: "Your order has been delivered.",
     cancelled: "Your order was cancelled.",
@@ -211,10 +204,21 @@ export async function updateOrderStatusAction(orderId: string, nextStatus: Order
     });
   }
 
+  if (nextStatus === "accepted") {
+    await notify({
+      userId: order.cafeteria.ownerId,
+      title: "Ticket to cook",
+      body: "An agent accepted an order. It's on your kitchen pass.",
+      link: `/dashboard/cafeteria/orders/${orderId}`,
+    });
+  }
+
   revalidatePath("/dashboard/student");
   revalidatePath("/dashboard/cafeteria");
   revalidatePath("/dashboard/runner");
   revalidatePath("/dashboard/admin");
+  revalidatePath("/agents");
+  revalidatePath("/r", "layout");
   return { success: "Status updated." };
 }
 
@@ -230,6 +234,8 @@ export async function declineOrderAction(orderId: string) {
   if (updated.count === 0) return { error: "This order cannot be declined." };
 
   revalidatePath("/dashboard/runner");
+  revalidatePath("/agents");
+  revalidatePath("/r", "layout");
   return { success: "Order released to the general pool." };
 }
 
@@ -243,6 +249,8 @@ export async function cancelMyOrderAction(orderId: string) {
     return { error: "Only unaccepted orders can be cancelled." };
   }
   revalidatePath("/dashboard/student");
+  revalidatePath("/agents");
+  revalidatePath("/r", "layout");
   return { success: "Order cancelled." };
 }
 

@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
-import { listLiveAgents } from "@/lib/agents";
+import { formatAgentQueue, listLiveAgents } from "@/lib/agents";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -49,6 +49,7 @@ export default async function AgentsLeaderboardPage() {
                         ratingCount={agent.ratingCount}
                         className="mt-1 text-muted"
                       />
+                      <p className="mt-1 text-sm text-muted">{formatAgentQueue(agent.queueCount)}</p>
                       <p className="mt-2 text-sm font-semibold text-forest">Order with {agent.name} →</p>
                     </div>
                   </Card>

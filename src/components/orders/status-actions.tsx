@@ -42,21 +42,6 @@ export function StatusActions({
     });
   }
 
-  if (role === "cafeteria") {
-    if (status === "accepted") {
-      actions.push({
-        label: "Start preparing",
-        onClick: () => run(() => updateOrderStatusAction(orderId, "preparing")),
-      });
-    }
-    if (status === "preparing") {
-      actions.push({
-        label: "Mark packed",
-        onClick: () => run(() => updateOrderStatusAction(orderId, "ready")),
-      });
-    }
-  }
-
   if (role === "runner") {
     if (status === "placed") {
       actions.push({
@@ -71,9 +56,9 @@ export function StatusActions({
         });
       }
     }
-    if (status === "ready") {
+    if (status === "accepted") {
       actions.push({
-        label: "Picked up",
+        label: "On the way",
         onClick: () => run(() => updateOrderStatusAction(orderId, "picked_up")),
       });
     }

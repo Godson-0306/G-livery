@@ -1,7 +1,6 @@
 import { requireRole } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 import { StatusChip } from "@/components/ui/status-chip";
-import { StatusActions } from "@/components/orders/status-actions";
 import { formatNgn } from "@/lib/money";
 import { RefreshOnInterval } from "@/components/refresh-on-interval";
 import { Card } from "@/components/ui/card";
@@ -25,6 +24,7 @@ export default async function CafeteriaOrderDetailPage({
     },
   });
   if (!order || order.cafeteria.ownerId !== session.user.id) notFound();
+  if (order.status === "placed" || order.status === "cancelled") notFound();
 
   return (
     <div className="space-y-4">
@@ -35,6 +35,9 @@ export default async function CafeteriaOrderDetailPage({
         subtitle={order.deliveryLocation}
         action={<StatusChip status={order.status} />}
       />
+      <p className="text-sm text-muted">
+        Cook this ticket. Delivery status is updated by the agent.
+      </p>
       <OrderTimeline status={order.status} />
       <Card padded={false}>
         <ul className="divide-y divide-line">
@@ -51,7 +54,6 @@ export default async function CafeteriaOrderDetailPage({
           Food total {formatNgn(order.totalAmount)}
         </p>
       </Card>
-      <StatusActions orderId={order.id} status={order.status} role="cafeteria" />
     </div>
   );
 }

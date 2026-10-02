@@ -24,9 +24,11 @@ export function StatCard({
   value: React.ReactNode;
 }) {
   return (
-    <Card className="bg-forest-soft/60">
+    <Card className="min-w-0 bg-forest-soft/60">
       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{label}</p>
-      <p className="mt-2 text-2xl font-semibold tracking-tight text-forest">{value}</p>
+      <p className="mt-2 text-xl font-semibold tabular-nums leading-tight tracking-tight text-forest sm:text-2xl">
+        {value}
+      </p>
     </Card>
   );
 }

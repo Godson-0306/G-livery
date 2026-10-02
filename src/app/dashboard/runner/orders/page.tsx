@@ -31,7 +31,7 @@ export default async function RunnerOrdersPage() {
     prisma.order.findMany({
       where: {
         runnerId: runner.id,
-        status: { in: ["accepted", "preparing", "ready", "picked_up"] },
+        status: { in: ["accepted", "picked_up"] },
       },
       include: { cafeteria: true, student: true },
       orderBy: { createdAt: "desc" },
@@ -44,7 +44,7 @@ export default async function RunnerOrdersPage() {
       <PageHeader
         eyebrow="Delivery agent"
         title="Orders board"
-        subtitle="Link jobs first, then the campus pool. Accept, pick up, and deliver with the large buttons."
+        subtitle="Link jobs first, then the campus pool. Accept, mark on the way, and deliver with the large buttons."
       />
       {!live ? (
         <p className="rounded-2xl bg-amber/20 px-4 py-3 text-sm">
@@ -68,7 +68,7 @@ export default async function RunnerOrdersPage() {
         <OrderList
           orders={active}
           live={live}
-          empty="Nothing in motion. Accepted jobs will wait here for pickup and delivery."
+          empty="Nothing in motion. Accepted jobs wait here until you mark them on the way and delivered."
         />
       </section>
     </div>
@@ -83,7 +83,7 @@ function OrderList({
 }: {
   orders: Array<{
     id: string;
-    status: "placed" | "accepted" | "preparing" | "ready" | "picked_up" | "delivered" | "cancelled";
+    status: "placed" | "accepted" | "picked_up" | "delivered" | "cancelled";
     totalAmount: { toString(): string };
     deliveryLocation: string;
     cafeteria: { name: string };

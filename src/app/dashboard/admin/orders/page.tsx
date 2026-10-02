@@ -2,6 +2,7 @@ import { requireRole } from "@/lib/auth-guards";
 import { StatusChip } from "@/components/ui/status-chip";
 import { prisma } from "@/lib/prisma";
 import { formatNgn } from "@/lib/money";
+import { ORDER_STATUS_LABEL } from "@/lib/order-status";
 import type { OrderStatus } from "@prisma/client";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
@@ -25,7 +26,7 @@ export default async function AdminOrdersPage({
     take: 100,
   });
 
-  const statuses = ["all", "placed", "accepted", "preparing", "ready", "picked_up", "delivered", "cancelled"];
+  const statuses = ["all", "placed", "accepted", "picked_up", "delivered", "cancelled"];
 
   return (
     <div className="space-y-4">
@@ -42,7 +43,7 @@ export default async function AdminOrdersPage({
                 : "border-line text-muted",
             )}
           >
-            {value.replace("_", " ")}
+            {value === "all" ? "all" : ORDER_STATUS_LABEL[value as OrderStatus]}
           </Link>
         ))}
       </div>

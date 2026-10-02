@@ -77,7 +77,7 @@ export default async function RunnerOrderDetailPage({
         />
       ) : (
         <p className="rounded-2xl bg-amber/20 px-4 py-3 text-sm">
-          Activate your subscription to accept, pick up, or deliver this order.
+          Activate your subscription to accept, mark on the way, or deliver this order.
         </p>
       )}
     </div>

@@ -14,7 +14,7 @@ export function OrderTimeline({ status }: { status: OrderStatus }) {
   const currentIndex = ORDER_FLOW.indexOf(status);
 
   return (
-    <ol className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+    <ol className="grid grid-cols-2 gap-2 sm:grid-cols-4">
       {ORDER_FLOW.map((step, index) => {
         const done = index <= currentIndex;
         const current = index === currentIndex;

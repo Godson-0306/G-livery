@@ -66,7 +66,9 @@ export default async function RunnerHomePage() {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatCard label="Pool orders" value={poolCount} />
         <StatCard label="Via your link" value={myIncoming} />
-        <StatCard label="Customers" value={customerCount.length} />
+        <Link href="/dashboard/runner/customers" className="block">
+          <StatCard label="Customers" value={customerCount.length} />
+        </Link>
         <StatCard label="Delivered volume" value={formatNgn(deliveredVolume._sum.totalAmount ?? 0)} />
       </div>
       <div className="grid gap-3 sm:grid-cols-2">

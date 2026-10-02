@@ -4,20 +4,15 @@ const TRANSITIONS: Record<Role, Partial<Record<OrderStatus, OrderStatus[]>>> = {
   student: {
     placed: ["cancelled"],
   },
-  cafeteria: {
-    accepted: ["preparing"],
-    preparing: ["ready"],
-  },
+  cafeteria: {},
   runner: {
     placed: ["accepted"],
-    ready: ["picked_up"],
+    accepted: ["picked_up"],
     picked_up: ["delivered"],
   },
   admin: {
     placed: ["accepted", "cancelled"],
-    accepted: ["preparing", "cancelled"],
-    preparing: ["ready", "cancelled"],
-    ready: ["picked_up", "cancelled"],
+    accepted: ["picked_up", "cancelled"],
     picked_up: ["delivered", "cancelled"],
     delivered: [],
     cancelled: [],

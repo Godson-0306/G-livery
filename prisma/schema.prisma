@@ -29,8 +29,6 @@ enum RunnerTier {
 enum OrderStatus {
   placed
   accepted
-  preparing
-  ready
   picked_up
   delivered
   cancelled

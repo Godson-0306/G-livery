@@ -11,7 +11,6 @@ import { CafeteriaLogo } from "@/components/cafeteria-logo";
 import { Card, StatCard } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
-import { StatusActions } from "@/components/orders/status-actions";
 
 export default async function CafeteriaHomePage() {
   const session = await requireRole("cafeteria");
@@ -33,12 +32,12 @@ export default async function CafeteriaHomePage() {
 
   const [incoming, recent] = await Promise.all([
     prisma.order.findMany({
-      where: { cafeteriaId: cafeteria.id, status: { in: ["accepted", "preparing"] } },
-      include: { student: true },
+      where: { cafeteriaId: cafeteria.id, status: "accepted" },
+      include: { student: true, items: { include: { menuItem: { select: { name: true } } } } },
       orderBy: { createdAt: "asc" },
     }),
     prisma.order.findMany({
-      where: { cafeteriaId: cafeteria.id },
+      where: { cafeteriaId: cafeteria.id, status: { in: ["accepted", "picked_up", "delivered"] } },
       take: 6,
       orderBy: { createdAt: "desc" },
       include: { student: true },
@@ -63,13 +62,15 @@ export default async function CafeteriaHomePage() {
         <p className="text-sm text-muted">{cafeteria.location ?? "Set your building in the profile below."}</p>
       </div>
       <section>
-        <h2 className="font-semibold text-forest">Incoming — needs the kitchen</h2>
-        <p className="text-sm text-muted">Start preparing and mark packed. Agents cannot pick up until you do.</p>
+        <h2 className="font-semibold text-forest">Accepted — cook these</h2>
+        <p className="text-sm text-muted">
+          Tickets appear when an agent accepts. Cook the food; the agent updates on the way and delivered.
+        </p>
         {incoming.length === 0 ? (
           <div className="mt-3">
             <EmptyState
               title="No tickets on the pass"
-              body="When an agent accepts, the order lands here. Start preparing, then mark packed."
+              body="When an agent accepts, the order lands here for you to cook. You do not update status."
               actionHref="/dashboard/cafeteria/orders"
               actionLabel="See all orders"
             />
@@ -91,9 +92,13 @@ export default async function CafeteriaHomePage() {
                     </div>
                     <StatusChip status={order.status} />
                   </div>
-                  <div className="mt-4">
-                    <StatusActions orderId={order.id} status={order.status} role="cafeteria" />
-                  </div>
+                  <ul className="mt-3 space-y-1 text-sm text-forest">
+                    {order.items.map((item) => (
+                      <li key={item.id}>
+                        {item.quantity}× {item.menuItem.name}
+                      </li>
+                    ))}
+                  </ul>
                 </Card>
               </li>
             ))}

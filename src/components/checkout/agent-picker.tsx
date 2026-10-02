@@ -4,6 +4,7 @@ import { AgentRatingLine } from "@/components/agents/agent-rating";
 import { useCart } from "@/components/cart/cart-provider";
 import { fieldClass } from "@/components/ui/field";
 import type { AgentBoardRow } from "@/lib/agents";
+import { formatAgentQueue } from "@/lib/agents";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 
@@ -146,6 +147,9 @@ export function AgentPicker({ agents }: { agents: AgentBoardRow[] }) {
                           ratingCount={agent.ratingCount}
                           className="mt-0.5 text-muted"
                         />
+                        <span className="mt-0.5 block text-sm text-muted">
+                          {formatAgentQueue(agent.queueCount)}
+                        </span>
                       </span>
                     </label>
                   </li>

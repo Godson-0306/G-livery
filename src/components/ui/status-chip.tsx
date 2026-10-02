@@ -6,7 +6,7 @@ export function StatusChip({ status }: { status: OrderStatus }) {
   return (
     <span
       className={cn(
-        "inline-flex rounded-full border px-2.5 py-0.5 text-xs font-semibold",
+        "inline-flex whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold",
         ORDER_STATUS_CLASS[status],
       )}
     >
