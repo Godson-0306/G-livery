@@ -73,14 +73,14 @@ export default async function RunnerHomePage() {
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         <Link href="/dashboard/runner/orders" className="block">
-          <Card className="h-full transition hover:border-forest/40">
+          <Card className="h-full transition hover:border-amber/45">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">General pool</p>
             <h2 className="mt-1 text-lg font-semibold text-forest">{poolCount} waiting</h2>
             <p className="mt-1 text-sm text-muted">Open campus orders with no agent yet. Accept from the board.</p>
           </Card>
         </Link>
         <Link href="/dashboard/runner/orders" className="block">
-          <Card className="h-full transition hover:border-forest/40">
+          <Card className="h-full transition hover:border-amber/45">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Via your link</p>
             <h2 className="mt-1 text-lg font-semibold text-forest">{myIncoming} tagged to you</h2>
             <p className="mt-1 text-sm text-muted">Students who ordered through /r/{runner.personalSlug}.</p>

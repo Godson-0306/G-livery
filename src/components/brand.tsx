@@ -45,7 +45,7 @@ export function Brand({
 }) {
   if (variant === "text") {
     return (
-      <Link href="/" className={cn("flex items-baseline gap-1 font-semibold tracking-tight", className)}>
+      <Link href="/" className={cn("flex items-baseline gap-1 font-display text-2xl font-medium tracking-tight", className)}>
         <span className={light ? "text-white" : "text-forest"}>G-Livery</span>
       </Link>
     );

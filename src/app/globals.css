@@ -4,43 +4,46 @@
 
 :root {
   color-scheme: light;
-  --background: #f6f1e8;
-  --foreground: #1c1917;
+  --background: #f4efe4;
+  --foreground: #1a1714;
+  --heading: #143528;
   --forest: #1b5e3b;
   --forest-dark: #14462c;
-  --forest-soft: #e7f4ec;
-  --amber: #e8a017;
+  --forest-soft: #e7f1ea;
+  --amber: #c9932a;
   --card: #fffdf8;
-  --muted: #78716c;
-  --line: #e7e0d4;
-  --shadow: 0 10px 30px -18px rgb(27 94 59 / 0.35);
-  --radius: 1.25rem;
+  --muted: #6f6a63;
+  --line: #e4d9c6;
+  --shadow: 0 18px 40px -28px rgb(20 53 40 / 0.45);
+  --radius: 1.15rem;
 }
 
 .dark {
   color-scheme: dark;
-  --background: #101714;
-  --foreground: #f4efe6;
+  --background: #0c1210;
+  --foreground: #f3eee4;
+  --heading: #f3eee4;
   --forest: #1b5e3b;
-  --forest-dark: #14462c;
-  --forest-soft: #1a2b22;
-  --amber: #f0b429;
-  --card: #18221d;
-  --muted: #a7b6ad;
-  --line: #2a3a32;
-  --shadow: 0 12px 32px -16px rgb(0 0 0 / 0.55);
-  --color-stone-100: #1e2a24;
-  --color-stone-200: #2a3a32;
-  --color-stone-300: #3d4f45;
+  --forest-dark: #103323;
+  --forest-soft: #15211b;
+  --amber: #d4a84b;
+  --card: #141c18;
+  --muted: #9aa89f;
+  --line: #3a3424;
+  --shadow: 0 20px 44px -28px rgb(0 0 0 / 0.7);
+  --color-stone-100: #15211b;
+  --color-stone-200: #1e2b25;
+  --color-stone-300: #314039;
   --color-stone-400: #8b9c92;
-  --color-stone-500: #a7b6ad;
+  --color-stone-500: #9aa89f;
   --color-stone-600: #c5d0c9;
-  --color-stone-900: #f4efe6;
+  --color-stone-900: #f3eee4;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-heading: var(--heading);
   --color-forest: var(--forest);
   --color-forest-dark: var(--forest-dark);
   --color-forest-soft: var(--forest-soft);
@@ -50,6 +53,7 @@
   --color-line: var(--line);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
 }
 
 body {
@@ -62,12 +66,25 @@ a {
   text-decoration: none;
 }
 
-.dark .text-forest {
-  color: #86e0ae;
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.dark .text-forest:not(a):not(button) {
+  color: var(--heading);
+}
+
+.dark a.text-forest,
 .dark .hover\:text-forest:hover {
-  color: #b6f3ce;
+  color: var(--amber);
 }
 
 .dark input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
@@ -78,9 +95,13 @@ a {
 }
 
 .surface {
-  background: var(--card);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
+  background: color-mix(in srgb, var(--card) 92%, white 8%);
+  border: 1px solid color-mix(in srgb, var(--line) 80%, var(--amber) 20%);
+  box-shadow: var(--shadow), inset 0 1px 0 rgb(255 255 255 / 0.04);
+}
+
+.dark .surface {
+  background: color-mix(in srgb, var(--card) 94%, white 6%);
 }
 
 .page-wrap {
@@ -88,4 +109,10 @@ a {
   max-width: 72rem;
   margin-inline: auto;
   padding-inline: 1rem;
+}
+
+.hairline {
+  height: 1px;
+  background: color-mix(in srgb, var(--amber) 55%, var(--line));
+  opacity: 0.7;
 }

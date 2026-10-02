@@ -28,8 +28,8 @@ export default async function PublicCafeteriaPage({
           <CafeteriaLogo src={cafeteria.logoUrl} name={cafeteria.name} size="xl" />
           <div className="min-w-0">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber">Live e-menu</p>
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight text-forest">{cafeteria.name}</h1>
-            <p className="mt-1 inline-flex rounded-full bg-forest-soft px-2.5 py-0.5 text-xs font-semibold text-forest">
+            <h1 className="mt-1 font-display text-3xl font-medium tracking-tight text-heading">{cafeteria.name}</h1>
+            <p className="mt-2 inline-flex rounded-full border border-amber/25 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-amber">
               {cafeteria.location ?? "Campus"}
             </p>
           </div>

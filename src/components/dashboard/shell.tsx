@@ -21,7 +21,7 @@ export function DashboardShell({
   return (
     <div className="min-h-dvh bg-background">
       <ForestHeader name={name} unread={unread} />
-      <main className="mx-auto w-full max-w-5xl px-4 py-6 pb-24">{children}</main>
+      <main className="mx-auto w-full max-w-5xl px-4 py-8 pb-24">{children}</main>
       <AppTabBar links={links} />
       <p className="sr-only">{home}</p>
     </div>

@@ -10,7 +10,7 @@ export function AppTabBar({ links }: { links: AppNavLink[] }) {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-card/95 pb-[max(0.4rem,env(safe-area-inset-bottom))] backdrop-blur">
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-amber/20 bg-card/80 pb-[max(0.4rem,env(safe-area-inset-bottom))] backdrop-blur-md">
       <ul
         className="mx-auto grid max-w-5xl"
         style={{ gridTemplateColumns: `repeat(${links.length}, minmax(0, 1fr))` }}
@@ -22,8 +22,8 @@ export function AppTabBar({ links }: { links: AppNavLink[] }) {
               <Link
                 href={link.href}
                 className={cn(
-                  "flex min-h-14 flex-col items-center justify-center gap-0.5 px-1 text-center text-[11px] font-semibold",
-                  active ? "text-forest" : "text-muted",
+                  "flex min-h-14 flex-col items-center justify-center gap-0.5 px-1 text-center text-[11px] font-semibold tracking-wide",
+                  active ? "text-amber" : "text-muted",
                 )}
               >
                 <NavIcon name={link.icon} />

@@ -29,8 +29,8 @@ export function ThemeToggle({
       className={cn(
         "inline-flex h-9 w-9 items-center justify-center rounded-full border text-sm transition",
         inverted
-          ? "border-white/20 text-white hover:bg-white/10"
-          : "border-stone-300 bg-card text-foreground hover:bg-forest/10",
+          ? "border-white/15 text-[#f3eee4] hover:bg-white/10"
+          : "border-line bg-card text-foreground hover:bg-forest/10",
         className,
       )}
     >

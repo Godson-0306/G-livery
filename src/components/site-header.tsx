@@ -27,18 +27,18 @@ export async function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/80 bg-background/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-amber/20 bg-background/80 backdrop-blur-md">
       <div className="page-wrap flex h-16 items-center justify-between">
         <Brand />
         <nav className="flex items-center gap-2 text-sm sm:gap-3">
           <ThemeToggle />
-          <Link href="/cafeterias" className="hidden text-muted hover:text-forest sm:inline">
+          <Link href="/cafeterias" className="hidden text-muted hover:text-amber sm:inline">
             Browse
           </Link>
-          <Link href="/agents" className="hidden text-muted hover:text-forest sm:inline">
+          <Link href="/agents" className="hidden text-muted hover:text-amber sm:inline">
             Agents
           </Link>
-          <Link href="/login" className="text-muted hover:text-forest">
+          <Link href="/login" className="text-muted hover:text-amber">
             Log in
           </Link>
           <Link href="/signup/student" className={buttonClass("primary", "h-9 px-3")}>

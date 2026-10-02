@@ -32,25 +32,26 @@ export default async function RunnerStorefrontPage({
     <div className="min-h-full">
       <SiteHeader />
       <main className="page-wrap py-8">
-        <section className="rounded-[1.6rem] bg-forest px-6 py-8 text-white shadow-sm">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber">
+        <section className="rounded-[1.6rem] border border-amber/20 bg-gradient-to-br from-[#0c1210] via-[#13201a] to-[#1b5e3b]/40 px-6 py-10 text-[#f3eee4]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-amber">
             Ordering with an agent
           </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight">{runner.user.name}</h1>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
+          <h1 className="mt-3 font-display text-4xl font-medium tracking-tight">{runner.user.name}</h1>
+          <div className="mt-2 h-px w-16 bg-amber/70" />
+          <div className="mt-4 flex flex-wrap items-center gap-2">
             <AgentRatingLine
               averageStars={stats.averageStars}
               ratingCount={stats.ratingCount}
-              className="text-emerald-100"
+              className="text-[#f3eee4]/75"
             />
-            <QueueBadge count={stats.queueCount} className="bg-white/15 text-white" />
+            <QueueBadge count={stats.queueCount} className="border border-amber/30 bg-transparent text-amber" />
           </div>
-          <p className="mt-3 max-w-2xl text-sm text-emerald-100">
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[#f3eee4]/70">
             Pick a cafeteria, add food, and this order is tagged to {runner.user.name}. Transfer the food
             total to {runner.user.name} after they accept — they pay the cafeteria when they pick up.
           </p>
         </section>
-        <h2 className="mt-8 text-lg font-semibold text-forest">Pick a cafeteria</h2>
+        <h2 className="mt-10 font-display text-2xl font-medium text-heading">Pick a cafeteria</h2>
         {cafeterias.length === 0 ? (
           <div className="mt-4">
             <EmptyState

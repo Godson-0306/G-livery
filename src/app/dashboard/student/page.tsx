@@ -61,7 +61,7 @@ export default async function StudentHomePage() {
             <CafeteriaLogo src={active.cafeteria.logoUrl} name={active.cafeteria.name} size="md" />
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Active order</p>
-              <h2 className="mt-1 text-lg font-semibold text-forest">{active.cafeteria.name}</h2>
+              <h2 className="mt-1 font-display text-xl font-medium text-heading">{active.cafeteria.name}</h2>
               <p className="text-sm text-muted">
                 {formatNgn(active.totalAmount)} · {active.deliveryLocation}
               </p>
@@ -93,7 +93,7 @@ export default async function StudentHomePage() {
 
       <section>
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-forest">Recent orders</h2>
+          <h2 className="font-display text-xl font-medium text-heading">Recent orders</h2>
           <Link href="/dashboard/student/orders" className="text-sm font-semibold text-forest">
             History
           </Link>

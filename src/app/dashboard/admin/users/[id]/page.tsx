@@ -71,7 +71,7 @@ export default async function AdminUserDetailPage({
       <Card>
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Phone</p>
         {user.phone ? (
-          <a href={`tel:${user.phone}`} className="mt-2 block select-all text-3xl font-semibold tabular-nums tracking-tight text-forest">
+          <a href={`tel:${user.phone}`} className="mt-2 block select-all font-display text-4xl font-medium tabular-nums tracking-tight text-heading">
             {user.phone}
           </a>
         ) : (

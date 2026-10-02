@@ -101,7 +101,7 @@ export function OrderChat({
       >
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Live chat</p>
-          <p className="mt-0.5 font-semibold text-forest">
+          <p className="mt-0.5 font-display text-lg font-medium text-heading">
             {peerName ? `Chat with ${peerName}` : "Order chat"}
           </p>
         </div>
@@ -134,11 +134,11 @@ export function OrderChat({
                         mine ? "bg-forest text-white" : "bg-forest-soft text-foreground",
                       )}
                     >
-                      <p className={cn("text-[11px] font-semibold", mine ? "text-emerald-100" : "text-muted")}>
+                      <p className={cn("text-[11px] font-semibold", mine ? "text-white/70" : "text-muted")}>
                         {mine ? "You" : row.senderName}
                       </p>
                       <p className="mt-0.5 whitespace-pre-wrap break-words">{row.body}</p>
-                      <p className={cn("mt-1 text-[10px]", mine ? "text-emerald-100/80" : "text-muted")}>
+                      <p className={cn("mt-1 text-[10px]", mine ? "text-white/55" : "text-muted")}>
                         {formatChatTime(row.createdAt)}
                       </p>
                     </div>

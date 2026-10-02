@@ -37,7 +37,7 @@ export default async function AdminHomePage() {
       </div>
       <section>
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-forest">Recent orders</h2>
+          <h2 className="font-display text-xl font-medium text-heading">Recent orders</h2>
           <Link href="/dashboard/admin/orders" className="text-sm font-semibold text-forest">
             View all
           </Link>

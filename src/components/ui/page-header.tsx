@@ -14,13 +14,13 @@ export function PageHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-wrap items-end justify-between gap-3", className)}>
+    <div className={cn("flex flex-wrap items-end justify-between gap-4", className)}>
       <div className="min-w-0">
         {eyebrow ? (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber">{eyebrow}</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-amber">{eyebrow}</p>
         ) : null}
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-forest sm:text-3xl">{title}</h1>
-        {subtitle ? <p className="mt-1 max-w-xl text-sm text-muted">{subtitle}</p> : null}
+        <h1 className="mt-1 font-display text-3xl font-medium tracking-tight text-heading sm:text-4xl">{title}</h1>
+        {subtitle ? <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">{subtitle}</p> : null}
       </div>
       {action}
     </div>

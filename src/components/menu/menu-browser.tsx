@@ -57,7 +57,7 @@ export function MenuBrowser({
               <li key={category}>
                 <a
                   href={`#${categoryAnchor(category)}`}
-                  className="inline-flex rounded-full border border-forest/20 bg-card px-3.5 py-1.5 text-sm font-semibold text-forest"
+                  className="inline-flex rounded-full border border-amber/30 bg-card px-3.5 py-1.5 text-sm font-semibold text-heading"
                 >
                   {category}
                 </a>
@@ -68,7 +68,7 @@ export function MenuBrowser({
       ) : null}
       {Object.entries(grouped).map(([category, rows]) => (
         <section key={category} id={categoryAnchor(category)} className="scroll-mt-28 space-y-3">
-          <h2 className="text-lg font-semibold text-forest">{category}</h2>
+          <h2 className="font-display text-xl font-medium text-heading">{category}</h2>
           <ul className="grid gap-3 lg:grid-cols-2">
             {rows.map((item) => {
               const qty =

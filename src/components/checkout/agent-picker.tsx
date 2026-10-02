@@ -38,7 +38,7 @@ export function AgentPicker({ agents }: { agents: AgentBoardRow[] }) {
           <label
             className={cn(
               "flex cursor-pointer items-start gap-3 rounded-[1.2rem] border px-4 py-3",
-              poolSelected ? "border-forest bg-forest-soft/80" : "border-line bg-card",
+              poolSelected ? "border-amber/50 bg-amber/5" : "border-line bg-card",
             )}
           >
             <input
@@ -65,7 +65,7 @@ export function AgentPicker({ agents }: { agents: AgentBoardRow[] }) {
           <label
             className={cn(
               "flex cursor-pointer items-start gap-3 rounded-[1.2rem] border px-4 py-3",
-              chooseOpen ? "border-forest bg-forest-soft/80" : "border-line bg-card",
+              chooseOpen ? "border-amber/50 bg-amber/5" : "border-line bg-card",
             )}
           >
             <input
@@ -101,7 +101,7 @@ export function AgentPicker({ agents }: { agents: AgentBoardRow[] }) {
           <ul className="mt-3 max-h-64 space-y-2 overflow-y-auto">
             {selectedSlug && !listed ? (
               <li>
-                <label className="flex cursor-pointer items-start gap-3 rounded-[1.1rem] border border-forest bg-forest-soft/80 px-3 py-2.5">
+                <label className="flex cursor-pointer items-start gap-3 rounded-[1.1rem] border border-amber/50 bg-amber/5 px-3 py-2.5">
                   <input
                     type="radio"
                     name="agent"
@@ -129,7 +129,7 @@ export function AgentPicker({ agents }: { agents: AgentBoardRow[] }) {
                     <label
                       className={cn(
                         "flex cursor-pointer items-start gap-3 rounded-[1.1rem] border px-3 py-2.5",
-                        checked ? "border-forest bg-forest-soft/80" : "border-line",
+                        checked ? "border-amber/50 bg-amber/5" : "border-line",
                       )}
                     >
                       <input

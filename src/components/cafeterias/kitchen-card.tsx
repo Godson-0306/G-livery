@@ -16,24 +16,24 @@ export function KitchenCard({
 }) {
   return (
     <Link href={href} className="block h-full">
-      <Card padded={false} className="h-full overflow-hidden transition hover:border-forest/40">
-        <div className="relative h-36 bg-forest">
+      <Card padded={false} className="h-full overflow-hidden transition hover:border-amber/45">
+        <div className="relative h-40 bg-[#13201a]">
           {logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={logoUrl} alt="" className="h-full w-full object-cover" />
           ) : (
-            <div className="flex h-full items-end p-4">
-              <span className="text-3xl font-semibold text-white">{name.slice(0, 1).toUpperCase()}</span>
+            <div className="flex h-full items-end p-5">
+              <span className="font-display text-4xl font-medium text-[#f3eee4]">{name.slice(0, 1).toUpperCase()}</span>
             </div>
           )}
         </div>
-        <div className="p-4">
-          <h2 className="text-lg font-semibold text-forest">{name}</h2>
-          <p className="mt-1 inline-flex rounded-full bg-forest-soft px-2.5 py-0.5 text-xs font-semibold text-forest">
+        <div className="p-5">
+          <h2 className="font-display text-xl font-medium text-heading">{name}</h2>
+          <p className="mt-2 inline-flex rounded-full border border-amber/25 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-amber">
             {location ?? "Campus"}
           </p>
-          {description ? <p className="mt-2 line-clamp-2 text-sm text-muted">{description}</p> : null}
-          <p className="mt-3 text-sm font-semibold text-forest">Open menu →</p>
+          {description ? <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted">{description}</p> : null}
+          <p className="mt-4 text-sm font-semibold text-forest">Open menu →</p>
         </div>
       </Card>
     </Link>

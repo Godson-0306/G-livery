@@ -119,7 +119,7 @@ export default async function RunnerCustomerDetailPage({
             {orders.map((order) => (
               <li key={order.id}>
                 <Link href={`/dashboard/runner/orders/${order.id}`}>
-                  <Card className="flex items-start justify-between gap-3 p-4 transition hover:border-forest/40">
+                  <Card className="flex items-start justify-between gap-3 p-4 transition hover:border-amber/45">
                     <div className="min-w-0">
                       <p className="font-semibold text-forest">{order.cafeteria.name}</p>
                       <p className="mt-0.5 text-sm text-muted">{order.deliveryLocation}</p>

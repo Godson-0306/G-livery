@@ -10,8 +10,8 @@ export async function SiteFooter({ light = false }: { light?: boolean }) {
     <footer
       className={
         light
-          ? "border-t border-white/10 px-4 py-4 text-center text-xs text-emerald-100"
-          : cn("mt-auto border-t border-line px-4 pt-4 text-center text-xs text-muted", tabPad)
+          ? "border-t border-white/10 px-4 py-4 text-center text-xs text-[#f3eee4]/70"
+          : cn("mt-auto border-t border-amber/20 px-4 pt-4 text-center text-xs text-muted", tabPad)
       }
     >
       <div className="mx-auto flex max-w-5xl items-center justify-center gap-3">

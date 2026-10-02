@@ -39,13 +39,13 @@ export default async function AgentsLeaderboardPage() {
             {agents.map((agent, index) => (
               <li key={agent.id}>
                 <Link href={`/r/${agent.slug}`} className="block h-full">
-                  <Card className="flex h-full items-start gap-4 transition hover:border-forest/40">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-forest-soft text-sm font-semibold text-forest">
+                  <Card className="flex h-full items-start gap-4 transition hover:border-amber/45">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-amber/30 font-display text-sm text-amber">
                       {index + 1}
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h2 className="font-semibold text-forest">{agent.name}</h2>
+                        <h2 className="font-display text-lg font-medium text-heading">{agent.name}</h2>
                         <QueueBadge count={agent.queueCount} />
                       </div>
                       <AgentRatingLine

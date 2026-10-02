@@ -34,7 +34,7 @@ export function AuthForm({
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-forest">{title}</h1>
+        <h1 className="font-display text-3xl font-medium tracking-tight text-heading">{title}</h1>
         {subtitle ? <p className="mt-1 text-sm text-muted">{subtitle}</p> : null}
       </div>
       {oauth ? (

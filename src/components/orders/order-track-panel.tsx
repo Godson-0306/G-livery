@@ -24,7 +24,7 @@ export function OrderTrackPanel({
 
   return (
     <div className="space-y-4">
-      <p className="text-lg font-semibold text-forest">{ORDER_STATUS_HEADLINE[status]}</p>
+      <p className="text-lg font-display font-medium text-heading">{ORDER_STATUS_HEADLINE[status]}</p>
       <OrderTimeline status={status} />
       {showPay && runnerName && payout ? (
         <PayAgentCard
@@ -37,7 +37,7 @@ export function OrderTrackPanel({
       ) : showPay ? (
         <Card>
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay the Agent</p>
-          <h2 className="mt-1 text-lg font-semibold text-forest">Waiting for an Agent</h2>
+          <h2 className="mt-1 font-display text-xl font-medium text-heading">Waiting for an Agent</h2>
           <p className="mt-1 text-sm text-muted">
             Food total {formatNgn(amount)}. After an Agent accepts, transfer that amount to them — they
             pay the cafeteria when they pick up.

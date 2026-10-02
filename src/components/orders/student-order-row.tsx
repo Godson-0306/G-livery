@@ -25,7 +25,7 @@ export function StudentOrderRow({
 }) {
   return (
     <Link href={href} className="block">
-      <Card className="flex items-center gap-3 py-3.5 transition hover:border-forest/40">
+      <Card className="flex items-center gap-3 py-3.5 transition hover:border-amber/45">
         <CafeteriaLogo src={cafeteriaLogoUrl} name={cafeteriaName} size="sm" />
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">

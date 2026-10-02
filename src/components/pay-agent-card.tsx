@@ -36,7 +36,7 @@ export function PayAgentCard({
     return (
       <Card className="bg-forest-soft/50">
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay this Agent</p>
-        <h2 className="mt-1 text-lg font-semibold text-forest">{agentName}</h2>
+        <h2 className="mt-1 font-display text-xl font-medium text-heading">{agentName}</h2>
         <p className="mt-1 text-sm text-muted">
           {amount != null ? `${formatNgn(amount)} food total. ` : ""}
           This Agent has not added transfer details yet. Pay them once they share an account.
@@ -53,11 +53,11 @@ export function PayAgentCard({
   const allDetails = `${bankName}\n${accountName}\n${accountNumber}${amount != null ? `\n${formatNgn(amount)}` : ""}`;
 
   return (
-    <Card className="border-forest/20 bg-forest-soft/40">
+    <Card className="border-amber/20 bg-forest-soft/40">
       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber">Pay this Agent</p>
-      <h2 className="mt-1 text-lg font-semibold text-forest">{agentName}</h2>
+      <h2 className="mt-1 font-display text-xl font-medium text-heading">{agentName}</h2>
       {amount != null ? (
-        <p className="mt-2 text-3xl font-semibold tabular-nums tracking-tight text-forest">
+        <p className="mt-2 font-display text-3xl font-medium tabular-nums tracking-tight text-heading">
           {formatNgn(amount)}
         </p>
       ) : null}

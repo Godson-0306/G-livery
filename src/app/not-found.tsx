@@ -7,7 +7,7 @@ export default function NotFound() {
     <div className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center px-4 text-center">
       <Brand className="text-xl" variant="text" />
       <p className="mt-2 text-sm text-muted">{TAGLINE}</p>
-      <h1 className="mt-8 text-2xl font-semibold text-forest">Page not found</h1>
+      <h1 className="mt-8 font-display text-3xl font-medium text-heading">Page not found</h1>
       <p className="mt-2 text-muted">That cafeteria, agent, or page does not exist.</p>
       <Link href="/" className={buttonClass("primary", "mt-6")}>
         Back home
