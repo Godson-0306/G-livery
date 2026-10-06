@@ -219,6 +219,9 @@ export async function updateOrderStatusAction(orderId: string, nextStatus: Order
   revalidatePath("/dashboard/admin");
   revalidatePath("/agents");
   revalidatePath("/r", "layout");
+  if (session.user.role === "runner" && nextStatus === "accepted") {
+    return { redirectTo: `/dashboard/runner/orders/${orderId}#chat` };
+  }
   return { success: "Status updated." };
 }
 

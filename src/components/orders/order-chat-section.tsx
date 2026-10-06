@@ -19,6 +19,7 @@ export async function OrderChatSection({
     <OrderChat
       orderId={orderId}
       currentUserId={userId}
+      role={role}
       peerName={access.peerName}
       canSend={access.canSend}
       waitingForAgent={access.waitingForAgent}

@@ -7,6 +7,8 @@ import {
 } from "@/actions/orders";
 import { buttonClass } from "@/components/ui/button";
 import type { OrderStatus, Role } from "@prisma/client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
 export function StatusActions({
@@ -22,12 +24,19 @@ export function StatusActions({
 }) {
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  function run(fn: () => Promise<{ error?: string } | void>) {
+  function run(fn: () => Promise<{ error?: string; redirectTo?: string } | void>) {
     setError(null);
     start(async () => {
       const result = await fn();
-      if (result && "error" in result && result.error) setError(result.error);
+      if (result && "error" in result && result.error) {
+        setError(result.error);
+        return;
+      }
+      if (result && "redirectTo" in result && result.redirectTo) {
+        router.push(result.redirectTo);
+      }
     });
   }
 
@@ -70,7 +79,10 @@ export function StatusActions({
     }
   }
 
-  if (actions.length === 0) return null;
+  const showAgentChat =
+    role === "runner" && (status === "accepted" || status === "picked_up" || status === "delivered");
+
+  if (actions.length === 0 && !showAgentChat) return null;
 
   return (
     <div className="space-y-2">
@@ -89,6 +101,14 @@ export function StatusActions({
             {pending ? "Updating…" : action.label}
           </button>
         ))}
+        {showAgentChat ? (
+          <Link
+            href={`/dashboard/runner/orders/${orderId}#chat`}
+            className={buttonClass("secondary", "h-11 min-w-[10rem] flex-1 px-5 sm:flex-none")}
+          >
+            Message student
+          </Link>
+        ) : null}
       </div>
       {error ? <p className="text-sm text-rose-700">{error}</p> : null}
     </div>

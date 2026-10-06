@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 export function OrderChat({
   orderId,
   currentUserId,
+  role,
   peerName,
   canSend,
   waitingForAgent,
@@ -19,6 +20,7 @@ export function OrderChat({
 }: {
   orderId: string;
   currentUserId: string;
+  role?: "student" | "runner" | "cafeteria" | "admin";
   peerName: string | null;
   canSend: boolean;
   waitingForAgent: boolean;
@@ -34,13 +36,23 @@ export function OrderChat({
   const [isCancelled, setIsCancelled] = useState(cancelled);
   const [open, setOpen] = useState(true);
   const bottomRef = useRef<HTMLLIElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const lastId = messages.at(-1)?.id;
+  const isAgent = role === "runner";
 
   useEffect(() => {
     setSendable(canSend);
     setWaiting(waitingForAgent);
     setIsCancelled(cancelled);
   }, [canSend, waitingForAgent, cancelled]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.location.hash !== "#chat") return;
+    setOpen(true);
+    const id = window.setTimeout(() => inputRef.current?.focus(), 80);
+    return () => window.clearTimeout(id);
+  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -93,7 +105,8 @@ export function OrderChat({
   }
 
   return (
-    <Card padded={false} className="overflow-hidden">
+    <div id="chat" className="scroll-mt-24">
+      <Card padded={false} className="overflow-hidden">
       <button
         type="button"
         className="flex w-full items-center justify-between px-5 py-3 text-left"
@@ -122,7 +135,11 @@ export function OrderChat({
                 </li>
               ) : null}
               {messages.length === 0 && sendable ? (
-                <li className="text-sm text-muted">No messages yet. Say where to meet or if anything changed.</li>
+                <li className="text-sm text-muted">
+                  {isAgent
+                    ? "No messages yet. Confirm the drop-off or ask where to meet."
+                    : "No messages yet. Say where to meet or if anything changed."}
+                </li>
               ) : null}
               {messages.map((row) => {
                 const mine = row.senderId === currentUserId;
@@ -151,10 +168,11 @@ export function OrderChat({
               <form onSubmit={onSubmit} className="sticky bottom-0 border-t border-line bg-card p-3">
                 <div className="flex gap-2">
                   <input
+                    ref={inputRef}
                     value={draft}
                     onChange={(event) => setDraft(event.target.value)}
                     maxLength={500}
-                    placeholder="Message…"
+                    placeholder={isAgent ? "Message the student…" : "Message…"}
                     className={fieldClass("mt-0")}
                   />
                   <button type="submit" disabled={pending} className={buttonClass("primary", "h-11 shrink-0 px-4")}>
@@ -167,7 +185,8 @@ export function OrderChat({
           </div>
         </div>
       ) : null}
-    </Card>
+      </Card>
+    </div>
   );
 }
 
